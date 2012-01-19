@@ -1,0 +1,3 @@
+= Dart Comics
+
+A simple Dart front-end for organizing comic books across formats. The backend is a simple express.js / node-dirty application.
