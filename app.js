@@ -31,7 +31,20 @@ app.configure('production', function(){
 // Routes
 
 app.get('/', function(req, res){
-  res.render('index', { title: 'Comix' });
+  res.render('index', { title: 'Dart Comics' });
+});
+
+app.get('/create', function(req, res){
+  res.render('create', { title: 'Dart Comics' });
+});
+
+app.get('/comics', function(req, res) {
+  var list = [];
+  db.forEach(function(id, graphic_novel) {
+    if (graphic_novel) list.push(graphic_novel);
+  });
+
+  res.send(JSON.stringify(list));
 });
 
 app.post('/comics', function(req, res) {
