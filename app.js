@@ -34,7 +34,7 @@ app.get('/', function(req, res){
   res.render('index', { title: 'Dart Comics' });
 });
 
-app.get('/create', function(req, res){
+app.get('/new', function(req, res){
   res.render('create', { title: 'Dart Comics' });
 });
 
@@ -45,6 +45,11 @@ app.get('/comics', function(req, res) {
   });
 
   res.send(JSON.stringify(list));
+});
+
+app.delete('/comics/:id', function(req, res) {
+  db.rm(req.params.id);
+  res.send('{}');
 });
 
 app.post('/comics', function(req, res) {
