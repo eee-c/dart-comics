@@ -1,3 +1,14 @@
 = Dart Comics
 
 A simple Dart front-end for organizing comic books across formats. The backend is a simple express.js / node-dirty application.
+
+== Install
+
+=== Prerequisites
+
+* Node.js (0.6+) and npm.
+* Dart binaries from http://gsdview.appspot.com/dart-editor-archive-continuous/latest/
+
+Node.js powers the simple REST-like backend. Node is found at http://nodejs.org/#download.
+
+A number of node packages are used, the primary of which are http:http://expressjs.com/[express.js] (provides a nice DSL for writing REST-like applications) and http:https://github.com/felixge/node-dirty[node-dirty] (a simple nosql datastore).
