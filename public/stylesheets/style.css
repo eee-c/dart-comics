@@ -9,7 +9,7 @@ a {
 
 .faded {
   opacity: 0;
-  -webkit-transition: opacity 1s ease-in-out;
+  /* -webkit-transition: opacity 1s ease-in-out; */
 }
 
 .fade-in {

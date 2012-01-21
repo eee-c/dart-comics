@@ -17,8 +17,16 @@ attach_add_handler() {
 enable_add_form(event) {
   final form_div = document.query('#add-comic-form');
 
-  form_div.classes.remove('fade-out');
-  form_div.classes.add('fade-in');
+  var start = new Date.now();
+  step(timestamp) {
+    var progress = timestamp - start.value
+      , opacity = "${progress/1000}";
+    print(opacity);
+    form_div.style.opacity = opacity;
+    if (progress < 1000) window.webkitRequestAnimationFrame(step, form_div);
+    true;
+  }
+  window.webkitRequestAnimationFrame(step, form_div);
 
   form_div.queryAll('a').forEach((el) {
     el.on.click.add(disable_add_form);
