@@ -3,7 +3,41 @@
 
 main() {
   load_comics();
+  attach_add_handler();
 }
+
+attach_add_handler() {
+  document.
+    query('#add-comic').
+    on.
+    click.
+    add(enable_add_form);
+}
+
+enable_add_form(event) {
+  final form_div = document.query('#add-comic-form');
+
+  form_div.classes.remove('fade-out');
+  form_div.classes.add('fade-in');
+
+  form_div.queryAll('a').forEach((el) {
+    el.on.click.add(disable_add_form);
+    event.preventDefault();
+  });
+}
+
+disable_add_form(event) {
+  final form_div = document.query('#add-comic-form');
+
+  form_div.classes.remove('fade-in');
+  form_div.classes.add('fade-out');
+
+  form_div.queryAll('a').forEach((el) {
+    el.on.click.remove(disable_add_form);
+    event.preventDefault();
+  });
+}
+
 
 load_comics() {
   var list_el = document.query('#comics-list')

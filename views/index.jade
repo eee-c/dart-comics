@@ -5,4 +5,33 @@ p Welcome to #{title}
 
 ul#comics-list
 
-p Add a sweet comic to the collection.
+p#add-comic Add a sweet comic to the collection.
+
+#add-comic-form.faded
+  form(action="comics", id="new-comic-form")
+    p
+      label
+        = "Title"
+        br/
+        input(type="text", name="title", id="comic-title")
+
+    p
+      label
+        = "Author"
+        br/
+        input(type="text", name="author", id="comic-author")
+
+    p
+      ="Format"
+      p
+        label
+          input(type="checkbox", name="format", value="tablet", id="comic-table")
+          ="Tablet"
+      p
+        label
+          input(type="checkbox", name="format", value="dead-tree", id="comic-dead-tree")
+          ="Dead Tree"
+
+    p
+      input(type="submit", value="Bazinga!")
+      a(href="#", class="cancel") Cancel
