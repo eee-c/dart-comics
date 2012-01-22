@@ -15,7 +15,6 @@ Node.js powers the simple REST-like backend. Node is found at http://nodejs.org/
 
 A number of node packages are used, the primary of which are http:http://expressjs.com/[express.js] (provides a nice DSL for writing REST-like applications) and http:https://github.com/felixge/node-dirty[node-dirty] (a simple nosql datastore). Installation of these packages is accomplished with http:http://npmjs.org/[npm] (the node package manager).  After installing npm (via `curl http://npmjs.org/install.sh | sh`), the following will install express.js, node-dirty and everything else needed:
 
-[source]
 ----
 npm install
 ----
