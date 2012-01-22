@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Dart Comics</title>
+  <link rel="stylesheet" href="/stylesheets/style.css">
+
+  <!-- Force Dartium to start the script engine -->
+  <script>{}</script>
+  <script src="/scripts/comics.dart" type="application/dart"></script>
+  <script type="application/dart">
+    #import('dart:html');
+    main() {
+      var el = new Element.html('<div id="_is-dart-enabled"/>');
+      document.nodes.add(el);
+    }
+  </script>
+  <script>
+    notDart(loadJsEquivalentScripts);
+
+    function notDart() {
+      var args = Array.prototype.slice.call(arguments)
+        , fn_when_no_dart = args.shift();
+
+      setTimeout(function() {
+        if (document.getElementById('_is-dart-enabled') == null) {
+          console.log('Not Dart enabled.');
+          fn_when_no_dart.apply(null, args);
+        }
+      }, 50);
+    }
+
+    function loadJsEquivalentScripts() {
+      var scripts = document.getElementsByTagName('script');
+      for (var i=0; i<scripts.length; i++) {
+        loadJsEquivalent(scripts[i]);
+      }
+    }
+
+    function loadJsEquivalent(script) {
+      if (!script.hasAttribute('src')) return;
+      if (!script.hasAttribute('type')) return;
+      if (script.getAttribute('type') != 'application/dart') return;
+
+      console.log(script.getAttribute('src'));
+      var js_script = document.createElement('script');
+      js_script.setAttribute('src', script.getAttribute('src') + '.js');
+      document.body.appendChild(js_script);
+    }
+  </script>
+</head>
+
+<body>
+  <h1>Dart Comics</h1>
+  <p>Welcome to Dart Comics</p>
+
+  <ul id="comics-list"></ul>
+
+  <p id="add-comic">Add a sweet comic to the collection.</p>
+</body>
+</html>
