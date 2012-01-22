@@ -30,10 +30,6 @@ app.configure('production', function(){
 
 // Routes
 
-app.get('/', function(req, res){
-  res.render('index', { title: 'Dart Comics' });
-});
-
 app.get('/new', function(req, res){
   res.render('create', { title: 'Dart Comics' });
 });
