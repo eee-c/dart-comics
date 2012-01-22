@@ -92,3 +92,34 @@ graphic_novel_template(graphic_novel) {
       <a href="#" class="delete">[delete]</a>
     </li>""";
 }
+
+form_template([graphic_novel]) {
+  return """
+<form action="comics" id="new-comic-form">
+<p>
+<label>Title<br/>
+<input type="text" name="title" id="comic-title"/>
+</label></p>
+
+<p>
+<label>Author<br/>
+<input type="text" name="author" id="comic-author"/>
+</label></p>
+
+<p>Format
+<p>
+<label>
+<input type="checkbox" name="format" value="tablet" id="comic-table"/>
+Tablet</label></p>
+<p>
+<label>
+<input type="checkbox" name="format" value="dead-tree" id="comic-dead-tree"/>
+Dead Tree</label></p>
+</p>
+
+<p>
+<input type="submit" value="Bazinga!"/></p>
+
+</form>
+""";
+}
