@@ -3,5 +3,4 @@ _site
 node_modules
 *.db
 .rvmrc
-public/scripts/*.js
-public/scripts/**/*.js
+public/**/*.dart.js
