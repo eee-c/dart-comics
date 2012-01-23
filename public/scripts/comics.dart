@@ -42,26 +42,34 @@ load_comics() {
   var list_el = document.query('#comics-list')
     , req = new XMLHttpRequest();
 
+  attach_delete_handlers(list_el);
+
   req.open('get', '/comics', true);
 
   req.on.load.add((res) {
     var list = JSON.parse(req.responseText);
     list_el.innerHTML = graphic_novels_template(list);
-    attach_delete_handlers(list_el);
   });
 
   req.send();
 }
 
 attach_delete_handlers(parent) {
-  parent.queryAll('.delete').forEach((el) {
-    el.on.click.add((event) {
-      delete(event.target.parent.id, callback:() {
-        print("[delete] ${event.target.parent.id}");
-        event.target.parent.remove();
-      });
-      event.preventDefault();
+  parent.on.click.add((event) {
+    var found = false;
+    parent.queryAll('.delete').forEach((el) {
+      if (el == event.target) found = true;
     });
+    if (!found) return;
+
+    print(event.target.parent.id);
+
+    delete(event.target.parent.id, callback:() {
+      print("[delete] ${event.target.parent.id}");
+      event.target.parent.remove();
+    });
+
+    event.preventDefault();
   });
 }
 
