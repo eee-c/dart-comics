@@ -42,7 +42,12 @@ load_comics() {
   var list_el = document.query('#comics-list')
     , req = new XMLHttpRequest();
 
-  attach_delete_handlers(list_el);
+  attach_handler(list_el, 'click .delete', (event) {
+    print("[delete] ${event.target.parent.id}");
+    delete(event.target.parent.id, callback:() {
+      event.target.parent.remove();
+    });
+  });
 
   req.open('get', '/comics', true);
 
@@ -54,20 +59,20 @@ load_comics() {
   req.send();
 }
 
-attach_delete_handlers(parent) {
-  parent.on.click.add((event) {
+attach_handler(parent, event_selector, callback) {
+  var index = event_selector.indexOf(' ')
+    , event_type = event_selector.substring(0,index)
+    , selector = event_selector.substring(index+1);
+
+  parent.on[event_type].add((event) {
     var found = false;
-    parent.queryAll('.delete').forEach((el) {
+    parent.queryAll(selector).forEach((el) {
       if (el == event.target) found = true;
     });
     if (!found) return;
 
     print(event.target.parent.id);
-
-    delete(event.target.parent.id, callback:() {
-      print("[delete] ${event.target.parent.id}");
-      event.target.parent.remove();
-    });
+    callback(event);
 
     event.preventDefault();
   });
