@@ -4,32 +4,31 @@
 main() {
   load_comics();
 
-  attach_add_handler();
+  attach_create_handler();
 }
 
-attach_add_handler() {
+attach_create_handler() {
   document.
     query('#add-comic').
     on.
     click.
-    add(enable_add_form);
+    add(enable_create_form);
 }
 
-enable_add_form(event) {
-  final form_div = _ensure_add_form('#add-comic-form');
+enable_create_form(event) {
+  final form_div = _ensure_create_form('add-comic-form');
 
-  form_div.style.transition = 'opacity 1s ease-in-out';
-  form_div.style.opacity = "1";
+  print(document.query('#add-comic-form'));
 
-  form_div.queryAll('a').forEach((el) {
-    el.on.click.add(disable_add_form);
-    event.preventDefault();
-  });
+  _show_form(form_div);
+  _attach_form_handlers(form_div);
 }
 
-_ensure_add_form(id_selector) {
-  var form_div = document.query(id_selector);
-  if (form_div) form_div.remove();
+_ensure_create_form(id_selector) {
+  var form_div = document.query("#${id_selector}");
+  if (form_div != null) form_div.remove();
+
+  print(document.query('#add-comic-form'));
 
   form_div = new Element.html("""
 <div id="$id_selector">
@@ -42,17 +41,58 @@ ${form_template()}
   return form_div;
 }
 
-disable_add_form(event) {
+_show_form(form_container) {
+  form_container.style.transition = 'opacity 1s ease-in-out';
+  form_container.style.opacity = "1";
+}
+
+_attach_form_handlers(form_container) {
+  form_container.query('form').on.submit.add((event) {
+    event.preventDefault();
+    _submit_create_form(event.target);
+  });
+
+  form_container.queryAll('a').forEach((el) {
+    el.on.click.add((event) {
+      event.preventDefault();
+      _disable_create_form(event);
+    });
+  });
+}
+
+_submit_create_form(form) {
+  var title = form.query('input[name=title]')
+    , author = form.query('input[name=author]')
+    , format = form.queryAll('input[name=format]');
+
+  print("title: ${title.value}");
+  print("author: ${author.value}");
+  print(format);
+
+  var data = {'title':title.value, 'author':author.value}
+    , json = JSON.stringify(data);
+
+  print(json);
+
+  var req = new XMLHttpRequest();
+  req.open('post', '/comics', false);
+  req.setRequestHeader('Content-type', 'application/json');
+  req.send(json);
+  print(req.responseText);
+}
+
+_disable_create_form(event) {
   final form_div = document.query('#add-comic-form');
+
+  print(form_div);
 
   form_div.style.opacity = "0";
 
   form_div.queryAll('a').forEach((el) {
-    el.on.click.remove(disable_add_form);
+    el.on.click.remove(_disable_create_form);
     event.preventDefault();
   });
 }
-
 
 load_comics() {
   var list_el = document.query('#comics-list')
@@ -69,6 +109,7 @@ load_comics() {
 
   req.on.load.add((res) {
     var list = JSON.parse(req.responseText);
+    print(req.responseText);
     list_el.innerHTML = graphic_novels_template(list);
   });
 
@@ -148,7 +189,7 @@ Dead Tree</label></p>
 
 <p>
 <input type="submit" value="Bazinga!"/></p>
-
+<a href="#">Cancel</a>
 </form>
 """;
 }
