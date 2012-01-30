@@ -3,6 +3,7 @@
 
 main() {
   load_comics();
+
   attach_add_handler();
 }
 
@@ -15,7 +16,7 @@ attach_add_handler() {
 }
 
 enable_add_form(event) {
-  final form_div = document.query('#add-comic-form');
+  final form_div = _ensure_add_form('#add-comic-form');
 
   form_div.style.transition = 'opacity 1s ease-in-out';
   form_div.style.opacity = "1";
@@ -24,6 +25,21 @@ enable_add_form(event) {
     el.on.click.add(disable_add_form);
     event.preventDefault();
   });
+}
+
+_ensure_add_form(id_selector) {
+  var form_div = document.query(id_selector);
+  if (form_div) form_div.remove();
+
+  form_div = new Element.html("""
+<div id="$id_selector">
+${form_template()}
+</div>
+""");
+
+  document.body.nodes.add(form_div);
+
+  return form_div;
 }
 
 disable_add_form(event) {
