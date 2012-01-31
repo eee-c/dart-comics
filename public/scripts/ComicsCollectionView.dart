@@ -7,16 +7,23 @@ class ComicsCollectionView {
   var get el;
   var get collection;
 
-  ComicsCollectionView(target_el) {
-    el = document.query(target_el);
-    collection = [];
+  ComicsCollectionView([el, collection]) {
+    this.el = document.query(el);
+    this.collection = collection;
+
+    collection.on.load.add((event) {
+      render();
+    });
+
+    collection.on.load.add((event) {
+      print("This really did fire in response to a custom event");
+    });
+
 
     _attachUiHandlers();
   }
 
   render() {
-    // TODO move into a proper collection object
-    _ensureCollectionLoaded();
     el.innerHTML = template(collection);
   }
 
@@ -29,31 +36,6 @@ class ComicsCollectionView {
       html += _singleComicBookTemplate(comic);
     });
     return html;
-  }
-
-  // TODO eliminate in a proper collection object
-  var _load_requested = false;
-
-  _ensureCollectionLoaded() {
-    // TODO this should go away in a proper collection that fires an onLoad
-    // event
-    if (_load_requested) return;
-    _load_requested = true;
-
-    var req = new XMLHttpRequest();
-
-    req.on.load.add(_handleOnLoad);
-    req.open('get', '/comics', true);
-    req.send();
-  }
-
-  _handleOnLoad(event) {
-    var request = event.target;
-
-    // TODO trigger an event for which the view can listen and render
-    collection = JSON.parse(request.responseText);
-
-    render();
   }
 
   _singleComicBookTemplate(comic) {

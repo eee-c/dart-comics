@@ -1,11 +1,17 @@
 #import('dart:html');
 #import('dart:json');
 
+#import('ComicsCollection.dart');
 #import('ComicsCollectionView.dart');
 
 main() {
-  var comics = new ComicsCollectionView('#comics-list');
-  comics.render();
+  var my_comics_collection = new ComicsCollection()
+    , comics_view = new ComicsCollectionView(
+        el:'#comics-list',
+        collection: my_comics_collection
+      );
+
+  my_comics_collection.fetch();
 
   attach_create_handler();
 }
