@@ -1,8 +1,11 @@
 #import('dart:html');
 #import('dart:json');
 
+#import('ComicsCollectionView.dart');
+
 main() {
-  load_comics();
+  var comics = new ComicsCollectionView('#comics-list');
+  comics.render();
 
   attach_create_handler();
 }
@@ -92,75 +95,6 @@ _disable_create_form(event) {
     el.on.click.remove(_disable_create_form);
     event.preventDefault();
   });
-}
-
-load_comics() {
-  var list_el = document.query('#comics-list')
-    , req = new XMLHttpRequest();
-
-  attach_handler(list_el, 'click .delete', (event) {
-    print("[delete] ${event.target.parent.id}");
-    delete(event.target.parent.id, callback:() {
-      event.target.parent.remove();
-    });
-  });
-
-  req.open('get', '/comics', true);
-
-  req.on.load.add((res) {
-    var list = JSON.parse(req.responseText);
-    print(req.responseText);
-    list_el.innerHTML = graphic_novels_template(list);
-  });
-
-  req.send();
-}
-
-attach_handler(parent, event_selector, callback) {
-  var index = event_selector.indexOf(' ')
-    , event_type = event_selector.substring(0,index)
-    , selector = event_selector.substring(index+1);
-
-  parent.on[event_type].add((event) {
-    var found = false;
-    parent.queryAll(selector).forEach((el) {
-      if (el == event.target) found = true;
-    });
-    if (!found) return;
-
-    print(event.target.parent.id);
-    callback(event);
-
-    event.preventDefault();
-  });
-}
-
-delete(id, [callback]) {
-  var req = new XMLHttpRequest()
-    , default_callback = (){};
-
-  req.on.load.add((res) {
-    (callback != null ? callback : default_callback)();
-  });
-
-  req.open('delete', '/comics/$id', true);
-  req.send();
-}
-
-graphic_novels_template(list) {
-  var html = '';
-  list.forEach((graphic_novel) {
-    html += graphic_novel_template(graphic_novel);
-  });
-  return html;
-}
-
-graphic_novel_template(graphic_novel) {
-  return """
-    <li id="${graphic_novel['id']}">
-      ${graphic_novel['title']}
-      <a href="#" class="delete">[delete]</a>
-    </li>""";
 }
 
 form_template([graphic_novel]) {
