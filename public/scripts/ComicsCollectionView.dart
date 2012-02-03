@@ -51,22 +51,10 @@ class ComicsCollectionView {
   _attachUiHandlers() {
     attach_handler(el, 'click .delete', (event) {
       print("[delete] ${event.target.parent.id}");
-      delete(event.target.parent.id, callback:() {
+      collection[event.target.parent.id].delete(callback:(_) {
         event.target.parent.remove();
       });
     });
-  }
-
-  delete(id, [callback]) {
-    var req = new XMLHttpRequest()
-      , default_callback = (){};
-
-    req.on.load.add((res) {
-      (callback != null ? callback : default_callback)();
-    });
-
-    req.open('delete', '/comics/$id', true);
-    req.send();
   }
 
   attach_handler(parent, event_selector, callback) {

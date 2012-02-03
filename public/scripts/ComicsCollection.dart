@@ -4,24 +4,36 @@
 #import('dart:htmlimpl');
 #import('dart:json');
 
+#import('Models.ComicBook.dart');
+
 class ComicsCollection {
   var list;
   var get on;
+  var get models;
 
   ComicsCollection() {
     on = new CollectionEvents();
+    models = [];
   }
 
   // Be List-like
   forEach(fn) {
-    list.forEach(fn);
+    models.forEach(fn);
   }
 
   get length() {
-    return list.length;
+    return models.length;
   }
 
   // Be Backbone like
+  operator [](id) {
+    var ret;
+    forEach((model) {
+      if (model['id'] == id) ret = model;
+    });
+    return ret;
+  }
+
   fetch() {
     var req = new XMLHttpRequest();
 
@@ -32,8 +44,11 @@ class ComicsCollection {
 
   _handleOnLoad(event) {
     var request = event.target;
-
+    print(request.responseText);
     list = JSON.parse(request.responseText);
+    list.forEach((attrs) {
+      models.add(new ComicBook(attrs));
+    });
 
     on.load.dispatch(new Event('load'));
   }
