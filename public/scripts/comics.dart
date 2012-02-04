@@ -1,5 +1,5 @@
 #import('Collection.Comics.dart');
-#import('Views.ComicsCollection.dart');
+#import('Views.Comics.dart');
 #import('Views.AddComic.dart');
 
 main() {
