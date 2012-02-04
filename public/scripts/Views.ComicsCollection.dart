@@ -3,11 +3,11 @@
 #import('dart:html');
 #import('dart:json');
 
-class ComicsCollectionView {
+class ComicsCollection {
   var get el;
   var get collection;
 
-  ComicsCollectionView([el, collection]) {
+  ComicsCollection([el, collection]) {
     this.el = document.query(el);
     this.collection = collection;
 

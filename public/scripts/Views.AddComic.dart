@@ -2,15 +2,15 @@
 
 #import('dart:html');
 
-#import('AddComicFormView.dart');
+#import('Views.AddComicForm.dart');
 
-class AddComicView {
+class AddComic {
   var get el;
   var get collection;
 
   var form_view;
 
-  AddComicView([el]) {
+  AddComic([el]) {
     this.el = document.query(el);
 
     _attachUiHandlers();
@@ -22,7 +22,7 @@ class AddComicView {
 
   _toggle_form(event) {
     if (form_view == null) {
-      form_view = new AddComicFormView();
+      form_view = new AddComicForm();
       form_view.render();
     }
     else {

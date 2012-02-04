@@ -6,12 +6,12 @@
 
 #import('Models.ComicBook.dart');
 
-class ComicsCollection {
+class Comics {
   var list;
   var get on;
   var get models;
 
-  ComicsCollection() {
+  Comics() {
     on = new CollectionEvents();
     models = [];
   }

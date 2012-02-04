@@ -2,10 +2,10 @@
 
 #import('dart:html');
 
-class AddComicFormView {
+class AddComicForm {
   var get el;
 
-  AddComicFormView() {
+  AddComicForm() {
     this.el = new Element.html('<div id="add-comic-form"/>');
     this.el.style.opacity = "0";
 
