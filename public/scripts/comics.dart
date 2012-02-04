@@ -1,15 +1,16 @@
-#import('Collections.Comics.dart');
-#import('Views.Comics.dart');
-#import('Views.AddComic.dart');
+#import('Collections.Comics.dart', prefix: 'Collections');
+#import('Views.Comics.dart', prefix: 'Views');
+#import('Views.AddComic.dart', prefix: 'Views');
 
 main() {
-  var my_comics_collection = new Comics()
-    , comics_view = new Comics(
+
+  var my_comics_collection = new Collections.Comics()
+    , comics_view = new Views.Comics(
         el:'#comics-list',
         collection: my_comics_collection
       );
 
   my_comics_collection.fetch();
 
-  new AddComic(el:'#add-comic');
+  new Views.AddComic(el:'#add-comic');
 }
