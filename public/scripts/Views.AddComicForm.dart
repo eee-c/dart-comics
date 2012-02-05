@@ -1,8 +1,9 @@
 #library('Form view to add new comic book to my sweet collection.');
 
 #import('dart:html');
+#import('HipsterView.dart');
 
-class AddComicForm {
+class AddComicForm extends HipsterView {
   var get el;
 
   AddComicForm() {

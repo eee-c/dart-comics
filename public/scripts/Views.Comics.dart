@@ -2,8 +2,9 @@
 
 #import('dart:html');
 #import('dart:json');
+#import('HipsterView.dart');
 
-class Comics {
+class Comics extends HipsterView {
   var get el;
   var get collection;
 
