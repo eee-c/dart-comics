@@ -2,6 +2,7 @@
 
 #import('dart:html');
 #import('HipsterView.dart');
+#import('dart:json');
 
 class AddComicForm extends HipsterView {
   var get el;

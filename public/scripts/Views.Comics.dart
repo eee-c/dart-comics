@@ -1,7 +1,6 @@
 #library('Collection View for My Comic Book Collection');
 
 #import('dart:html');
-#import('dart:json');
 #import('HipsterView.dart');
 
 class Comics extends HipsterView {
