@@ -2,11 +2,9 @@
 
 #import('dart:html');
 #import('HipsterView.dart');
-#import('dart:json');
+#import('Models.ComicBook.dart');
 
 class AddComicForm extends HipsterView {
-  var get el;
-
   AddComicForm() {
     this.el = new Element.html('<div id="add-comic-form"/>');
     this.el.style.opacity = "0";
@@ -79,44 +77,15 @@ Dead Tree</label></p>
     });
   }
 
-  attach_handler(parent, event_selector, callback) {
-    var index = event_selector.indexOf(' ')
-      , event_type = event_selector.substring(0,index)
-      , selector = event_selector.substring(index+1);
-
-    parent.on[event_type].add((event) {
-      var found = false;
-      parent.queryAll(selector).forEach((el) {
-        if (el == event.target) found = true;
-      });
-      if (!found) return;
-
-      print(event.target.parent.id);
-      callback(event);
-
-      event.preventDefault();
-    });
-  }
-
-  // Thar be model code here...
   _submit_create_form(event) {
     var title = el.query('input[name=title]')
       , author = el.query('input[name=author]')
       , format = el.queryAll('input[name=format]');
 
-    print("title: ${title.value}");
-    print("author: ${author.value}");
-    print(format);
-
-    var data = {'title':title.value, 'author':author.value}
-    , json = JSON.stringify(data);
-
-    print(json);
-
-    var req = new XMLHttpRequest();
-    req.open('post', '/comics', false);
-    req.setRequestHeader('Content-type', 'application/json');
-    req.send(json);
-    print(req.responseText);
+    var comic = new ComicBook({
+      'title':title.value,
+      'author':author.value
+    });
+    comic.save();
   }
 }

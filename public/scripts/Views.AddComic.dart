@@ -6,9 +6,6 @@
 #import('Views.AddComicForm.dart');
 
 class AddComic extends HipsterView {
-  var get el;
-  var get collection;
-
   var form_view;
 
   AddComic([el]) {
