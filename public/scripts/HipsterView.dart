@@ -5,9 +5,7 @@
 #import('dart:json');
 
 class HipsterView {
-  var get model;
-  var get el;
-  var get collection;
+  var model, el, collection;
 
   // delegate events
   attach_handler(parent, event_selector, callback) {

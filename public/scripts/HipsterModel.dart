@@ -5,8 +5,7 @@
 #import('dart:json');
 
 class HipsterModel {
-  var get attributes;
-  var get on;
+  var attributes, on;
 
   HipsterModel(this.attributes) {
     on = new ModelEvents();

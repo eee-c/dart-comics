@@ -7,9 +7,7 @@
 #import('Models.ComicBook.dart');
 
 class Comics {
-  var list;
-  var get on;
-  var get models;
+  var models, on;
 
   Comics() {
     on = new CollectionEvents();
@@ -43,9 +41,9 @@ class Comics {
   }
 
   _handleOnLoad(event) {
-    var request = event.target;
-    print(request.responseText);
-    list = JSON.parse(request.responseText);
+    var request = event.target
+      , list = JSON.parse(request.responseText);
+
     list.forEach((attrs) {
       models.add(new ComicBook(attrs));
     });
