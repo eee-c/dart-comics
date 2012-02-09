@@ -8,19 +8,22 @@
 class AddComic extends HipsterView {
   var form_view;
 
-  AddComic([el]) {
-    this.el = document.query(el);
+  AddComic([collection, model, el]): super(collection:collection, model:model, el:el);
 
-    _attachUiHandlers();
-  }
+  // AddComic([el]) {
+  //   this.el = document.query(el);
 
-  _attachUiHandlers() {
+  //   _attachUiHandlers();
+  // }
+
+  void post_initialize() {
+    print("sub initialize");
     el.on.click.add(_toggle_form);
   }
 
   _toggle_form(event) {
     if (form_view == null) {
-      form_view = new AddComicForm();
+      form_view = new AddComicForm(collection: collection);
       form_view.render();
     }
     else {

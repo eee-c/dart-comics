@@ -5,7 +5,9 @@
 #import('Models.ComicBook.dart');
 
 class AddComicForm extends HipsterView {
-  AddComicForm() {
+  AddComicForm([collection, model, el]): super(collection:collection, model:model, el:el);
+
+  post_initialize() {
     this.el = new Element.html('<div id="add-comic-form"/>');
     this.el.style.opacity = "0";
 
@@ -82,10 +84,14 @@ Dead Tree</label></p>
       , author = el.query('input[name=author]')
       , format = el.queryAll('input[name=format]');
 
-    var comic = new ComicBook({
+    // var comic = new ComicBook({
+    //   'title':title.value,
+    //   'author':author.value
+    // });
+    // comic.save();
+    collection.create({
       'title':title.value,
       'author':author.value
     });
-    comic.save();
   }
 }

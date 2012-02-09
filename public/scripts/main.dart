@@ -12,5 +12,8 @@ main() {
 
   my_comics_collection.fetch();
 
-  new ViewsFIXME02.AddComic(el:'#add-comic');
+  new ViewsFIXME02.AddComic(
+    el:'#add-comic',
+    collection: my_comics_collection
+  );
 }

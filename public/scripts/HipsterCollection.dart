@@ -4,6 +4,8 @@
 #import('dart:htmlimpl');
 #import('dart:json');
 
+#import('HipsterModel.dart');
+
 class HipsterCollection {
   var url, model, models, on;
 
@@ -33,6 +35,19 @@ class HipsterCollection {
     req.send();
   }
 
+  create(attrs) {
+    var new_model = model(attrs);
+    new_model.save(callback:(event) {
+      this.add(new_model);
+    });
+  }
+
+  add(model) {
+    models.add(model);
+    on.add.
+      dispatch(new CollectionEvent('add', this, model:model));
+  }
+
   _handleOnLoad(event) {
     var request = event.target
       , list = JSON.parse(request.responseText);
@@ -41,7 +56,20 @@ class HipsterCollection {
       models.add(model(attrs));
     });
 
-    on.load.dispatch(new Event('load'));
+    on.load.dispatch(new CollectionEvent('load', this));
+  }
+}
+
+class CollectionEvent implements Event {
+  var _type, collection, _model;
+  CollectionEvent(this._type, this.collection, [model]) {
+    _model = model;
+  }
+  String get type() {
+    return _type;
+  }
+  HipsterModel get model() {
+    return _model;
   }
 }
 

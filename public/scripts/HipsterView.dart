@@ -7,6 +7,15 @@
 class HipsterView {
   var model, el, collection;
 
+  HipsterView([this.model, this.el, this.collection]) {
+    if (this.el is String) this.el = document.query(this.el);
+    print(this.el);
+    this.post_initialize();
+  }
+
+  void post_initialize() { print("super initialize"); }
+  // abstract _initialize();
+
   // delegate events
   attach_handler(parent, event_selector, callback) {
     var index = event_selector.indexOf(' ')
@@ -25,5 +34,9 @@ class HipsterView {
 
       event.preventDefault();
     });
+  }
+
+  noSuchMethod(name, args) {
+    print("[noSuchMethod] $name");
   }
 }
