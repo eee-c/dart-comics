@@ -74,15 +74,15 @@ class CollectionEvent implements Event {
 }
 
 class CollectionEvents implements Events {
-  var load_list;
+  var load_list, add_to_list;
 
   CollectionEvents() {
     load_list = new CollectionEventList();
+    add_to_list = new CollectionEventList();
   }
 
-  get load() {
-    return load_list;
-  }
+  get load() { return load_list; }
+  get add() { return add_to_list; }
 }
 
 class CollectionEventList implements EventListenerList {

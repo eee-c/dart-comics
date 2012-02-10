@@ -2,18 +2,20 @@
 
 #import('dart:html');
 #import('HipsterView.dart');
-#import('Models.ComicBook.dart');
 
 class AddComicForm extends HipsterView {
-  AddComicForm([collection, model, el]): super(collection:collection, model:model, el:el);
+  AddComicForm([collection, model, el]):
+    super(collection:collection, model:model, el:el);
 
   post_initialize() {
+    _addToDom();
+    _attachUiHandlers();
+  }
+
+  _addToDom() {
     this.el = new Element.html('<div id="add-comic-form"/>');
     this.el.style.opacity = "0";
-
     document.body.nodes.add(this.el);
-
-    _attachUiHandlers();
   }
 
   _attachUiHandlers() {
@@ -84,11 +86,6 @@ Dead Tree</label></p>
       , author = el.query('input[name=author]')
       , format = el.queryAll('input[name=format]');
 
-    // var comic = new ComicBook({
-    //   'title':title.value,
-    //   'author':author.value
-    // });
-    // comic.save();
     collection.create({
       'title':title.value,
       'author':author.value

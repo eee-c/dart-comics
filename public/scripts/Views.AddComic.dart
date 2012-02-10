@@ -1,20 +1,13 @@
 #library('Simple view to toggle new comic form view');
 
-#import('dart:html');
 #import('HipsterView.dart');
-
 #import('Views.AddComicForm.dart');
 
 class AddComic extends HipsterView {
   var form_view;
 
-  AddComic([collection, model, el]): super(collection:collection, model:model, el:el);
-
-  // AddComic([el]) {
-  //   this.el = document.query(el);
-
-  //   _attachUiHandlers();
-  // }
+  AddComic([collection, model, el]):
+    super(collection:collection, model:model, el:el);
 
   void post_initialize() {
     print("sub initialize");

@@ -1,23 +1,21 @@
 #library('Collection View for My Comic Book Collection');
 
-#import('dart:html');
 #import('HipsterView.dart');
 
 class Comics extends HipsterView {
-  Comics([el, collection]) {
-    this.el = document.query(el);
-    this.collection = collection;
+  Comics([collection, model, el]):
+    super(collection:collection, model:model, el:el);
 
-    collection.on.load.add((event) {
-      render();
-    });
-
-    collection.on.load.add((event) {
-      print("This really did fire in response to a custom event");
-    });
-
-
+  post_initialize() {
+    _subscribeEvents();
     _attachUiHandlers();
+  }
+
+  _subscribeEvents() {
+    if (collection == null) return;
+
+    collection.on.load.add((event) { render(); });
+    collection.on.add.add((event) { render(); });
   }
 
   render() {
