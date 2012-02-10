@@ -22,12 +22,11 @@ class HipsterModel {
       , json = JSON.stringify(attributes);
 
     req.on.load.add((event) {
-      print("[save] ${req.responseText}");
+      attributes = JSON.parse(req.responseText);
       on.save.dispatch(event);
       if (callback != null) callback(event);
     });
 
-    print("[save] $json");
     req.open('post', '/comics', true);
     req.setRequestHeader('Content-type', 'application/json');
     req.send(json);
