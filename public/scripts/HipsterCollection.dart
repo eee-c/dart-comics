@@ -6,24 +6,24 @@
 
 #import('HipsterModel.dart');
 
-class HipsterCollection<M extends HipsterModel> {
+class HipsterCollection implements Collection<HipsterModel> {
   var on;
-  List<M> models;
+  List<HipsterModel> models;
 
   HipsterCollection() {
     on = new CollectionEvents();
-    models = <M>[];
+    models = <HipsterModel>[];
   }
 
-  abstract M modelMaker(attrs);
+  abstract HipsterModel modelMaker(attrs);
   abstract String get url();
 
   // Be List-like
-  forEach(fn) {
+  void forEach(fn) {
     models.forEach(fn);
   }
 
-  get length() {
+  int get length() {
     return models.length;
   }
 
