@@ -4,11 +4,6 @@
 #import('Models.ComicBook.dart');
 
 class Comics extends HipsterCollection {
-  Comics() {
-    url = '/comics';
-    model = (attrs) => new ComicBook(attrs);
-
-    on = new CollectionEvents();
-    models = [];
-  }
+  get url() => '/comics';
+  modelMaker(attrs) => new ComicBook(attrs);
 }

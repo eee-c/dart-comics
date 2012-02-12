@@ -6,8 +6,17 @@
 
 #import('HipsterModel.dart');
 
-class HipsterCollection {
-  var url, model, models, on;
+class HipsterCollection<M extends HipsterModel> {
+  var on;
+  List<M> models;
+
+  HipsterCollection() {
+    on = new CollectionEvents();
+    models = <M>[];
+  }
+
+  abstract M modelMaker(attrs);
+  abstract String get url();
 
   // Be List-like
   forEach(fn) {
@@ -36,7 +45,7 @@ class HipsterCollection {
   }
 
   create(attrs) {
-    var new_model = model(attrs);
+    var new_model = modelMaker(attrs);
     new_model.save(callback:(event) {
       this.add(new_model);
     });
@@ -53,7 +62,7 @@ class HipsterCollection {
       , list = JSON.parse(request.responseText);
 
     list.forEach((attrs) {
-      models.add(model(attrs));
+      models.add(modelMaker(attrs));
     });
 
     on.load.dispatch(new CollectionEvent('load', this));

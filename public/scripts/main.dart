@@ -3,7 +3,6 @@
 #import('Views.AddComic.dart', prefix: 'ViewsFIXME02');
 
 main() {
-
   var my_comics_collection = new Collections.Comics()
     , comics_view = new ViewsFIXME01.Comics(
         el:'#comics-list',
