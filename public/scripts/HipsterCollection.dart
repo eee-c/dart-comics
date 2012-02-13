@@ -8,6 +8,7 @@ import 'HipsterModel.dart';
 class HipsterCollection implements Collection<HipsterModel> {
   var on = new CollectionEvents();
   List<HipsterModel> models = [];
+  Map<String,Map> data;
 
   HipsterModel modelMaker(attrs);
   String get url;
@@ -31,15 +32,14 @@ class HipsterCollection implements Collection<HipsterModel> {
   }
 
   fetch() {
-    var req = new HttpRequest();
-
-    req.on.load.add(_handleOnLoad);
-    req.open('get', url, true);
-    req.send();
+    var json =  window.localStorage.getItem(url);
+    data = (json == null) ? {} : JSON.parse(json);
+    _handleStoreInit();
   }
 
   create(attrs) {
     var new_model = modelMaker(attrs);
+    new_model.collection = this;
     new_model.save(callback:(event) {
       this.add(new_model);
     });
@@ -56,7 +56,19 @@ class HipsterCollection implements Collection<HipsterModel> {
       , list = JSON.parse(request.responseText);
 
     list.forEach((attrs) {
-      models.add(modelMaker(attrs));
+      var new_model = modelMaker(attrs);
+      new_model.collection = this;
+      models.add(new_model);
+    });
+
+    on.load.dispatch(new CollectionEvent('load', this));
+  }
+
+  _handleStoreInit() {
+    data.forEach((k,attrs) {
+      var new_model = modelMaker(attrs);
+      new_model.collection = this;
+      models.add(new_model);
     });
 
     on.load.dispatch(new CollectionEvent('load', this));
