@@ -4,11 +4,15 @@
 #import('dart:htmlimpl');
 #import('dart:json');
 
-class HipsterModel {
-  var attributes, on;
+class HipsterModel implements Hashable {
+  var attributes, on, collection;
 
   HipsterModel(this.attributes) {
     on = new ModelEvents();
+  }
+
+  static String hash() {
+    return (new Date.now()).value.hashCode().toRadixString(16);
   }
 
   operator [](attr) {
@@ -18,31 +22,28 @@ class HipsterModel {
   get urlRoot() { return ""; }
 
   save([callback]) {
-    var req = new XMLHttpRequest()
-      , json = JSON.stringify(attributes);
+    var id, event;
 
-    req.on.load.add((event) {
-      attributes = JSON.parse(req.responseText);
-      on.save.dispatch(event);
-      if (callback != null) callback(event);
-    });
+    if (attributes['id'] == null) {
+      attributes['id'] = hash();
+    }
 
-    req.open('post', '/comics', true);
-    req.setRequestHeader('Content-type', 'application/json');
-    req.send(json);
+    id = attributes['id'];
+    collection.data[id] = attributes;
+    window.localStorage.setItem(collection.url, JSON.stringify(collection.data));
+
+    event = new Event("Save");
+    on.save.dispatch(event);
+    if (callback != null) callback(event);
   }
 
   delete([callback]) {
-    var req = new XMLHttpRequest();
+    collection.data.remove(attributes['id']);
+    window.localStorage.setItem(collection.url, JSON.stringify(collection.data));
 
-    req.on.load.add((event) {
-      print("[delete] success");
-      on.delete.dispatch(event);
-      if (callback != null) callback(event);
-    });
-
-    req.open('delete', "${urlRoot}/${attributes['id']}", true);
-    req.send();
+    var event = new Event("Delete");
+    on.delete.dispatch(event);
+    if (callback != null) callback(event);
   }
 
 }
