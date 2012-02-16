@@ -5,6 +5,7 @@
 #import('dart:json');
 
 #import('HipsterModel.dart');
+#import('HipsterSync.dart');
 
 class HipsterCollection implements Collection<HipsterModel> {
   var on;
@@ -38,9 +39,9 @@ class HipsterCollection implements Collection<HipsterModel> {
   }
 
   fetch() {
-    var json =  window.localStorage.getItem(url);
-    data = (json == null) ? {} : JSON.parse(json);
-    _handleStoreInit();
+    HipsterSync.call('get', this, options: {
+      'onLoad': _handleOnLoad
+    });
   }
 
   create(attrs) {
@@ -57,21 +58,8 @@ class HipsterCollection implements Collection<HipsterModel> {
       dispatch(new CollectionEvent('add', this, model:model));
   }
 
-  _handleOnLoad(event) {
-    var request = event.target
-      , list = JSON.parse(request.responseText);
-
+  _handleOnLoad(list) {
     list.forEach((attrs) {
-      var new_model = modelMaker(attrs);
-      new_model.collection = this;
-      models.add(new_model);
-    });
-
-    on.load.dispatch(new CollectionEvent('load', this));
-  }
-
-  _handleStoreInit() {
-    data.forEach((k,attrs) {
       var new_model = modelMaker(attrs);
       new_model.collection = this;
       models.add(new_model);
