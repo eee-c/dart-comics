@@ -39,7 +39,15 @@ class HipsterSync {
         options['onLoad'](list);
       });
     }
+
     req.open(method, model.url, true);
-    req.send();
+
+    if (method == 'post' || method == 'put') {
+      req.setRequestHeader('Content-type', 'application/json');
+      req.send(JSON.stringify(model.attributes));
+    }
+    else {
+      req.send();
+    }
   }
 }

@@ -4,6 +4,8 @@
 #import('dart:htmlimpl');
 #import('dart:json');
 
+#import('HipsterSync.dart');
+
 class HipsterModel implements Hashable {
   var attributes, on, collection;
 
@@ -19,33 +21,39 @@ class HipsterModel implements Hashable {
     return attributes[attr];
   }
 
+  get url() {
+    return (attributes['id'] == null) ?
+      urlRoot : "$urlRoot/${attributes['id']}";
+  }
   get urlRoot() { return ""; }
 
   save([callback]) {
-    var id, event;
+    HipsterSync.call('post', this, options: {
+      'onLoad': (attrs) {
+        attributes = attrs;
 
-    if (attributes['id'] == null) {
-      attributes['id'] = hash();
-    }
-
-    id = attributes['id'];
-    collection.data[id] = attributes;
-    window.localStorage.setItem(collection.url, JSON.stringify(collection.data));
-
-    event = new Event("Save");
-    on.save.dispatch(event);
-    if (callback != null) callback(event);
+        var event = new ModelEvent('save', this);
+        on.load.dispatch(event);
+        if (callback != null) callback(event);
+      }
+    });
   }
 
   delete([callback]) {
-    collection.data.remove(attributes['id']);
-    window.localStorage.setItem(collection.url, JSON.stringify(collection.data));
-
-    var event = new Event("Delete");
-    on.delete.dispatch(event);
-    if (callback != null) callback(event);
+    HipsterSync.call('delete', this, options: {
+      'onLoad': (attrs) {
+        var event = new ModelEvent('delete', this);
+        on.delete.dispatch(event);
+        if (callback != null) callback(event);
+      }
+    });
   }
 
+}
+
+class ModelEvent implements Event {
+  var type, model;
+  ModelEvent(this.type, this.model);
 }
 
 class ModelEvents implements Events {
