@@ -7,8 +7,8 @@
 #import('HipsterModel.dart');
 #import('HipsterSync.dart');
 
-class HipsterCollection implements Collection<HipsterModel> {
-  var on;
+class HipsterCollection implements Collection {
+  CollectionEvents on;
   List<HipsterModel> models;
   Map<String,Map> data;
 

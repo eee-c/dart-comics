@@ -4,5 +4,4 @@
 
 class ComicBook extends HipsterModel {
   ComicBook(attributes) : super(attributes);
-  get urlRoot() { return "/comics"; }
 }
