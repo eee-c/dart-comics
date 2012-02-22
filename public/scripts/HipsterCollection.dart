@@ -6,7 +6,7 @@ import 'dart:json';
 import 'HipsterModel.dart';
 import 'HipsterSync.dart';
 
-class HipsterCollection implements Collection<HipsterModel> {
+class HipsterCollection implements Collection {
   var on = new CollectionEvents();
   List<HipsterModel> models = [];
   Map<String,Map> data;

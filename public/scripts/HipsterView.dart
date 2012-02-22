@@ -3,20 +3,24 @@ library hipster_view;
 import 'dart:html';
 import 'dart:json';
 
-class HipsterView {
-  var model, el, collection;
+import 'HipsterCollection.dart';
+import 'HipsterModel.dart';
 
-  HipsterView({this.model, this.el, this.collection}) {
-    if (this.el is String) this.el = document.query(this.el);
-    print(this.el);
+class HipsterView {
+  HipsterCollection collection;
+  HipsterModel model;
+  Element el;
+
+  HipsterView({el, this.model, this.collection}) {
+    this.el = (this.el is Element) ? el : document.query(el);
     this.post_initialize();
   }
 
-  void post_initialize() { print("super initialize"); }
+  void post_initialize() { }
   // abstract _initialize();
 
   // delegate events
-  attach_handler(parent, event_selector, callback) {
+  attachHandler(parent, event_selector, callback) {
     var index = event_selector.indexOf(' ')
       , event_type = event_selector.substring(0,index)
       , selector = event_selector.substring(index+1);

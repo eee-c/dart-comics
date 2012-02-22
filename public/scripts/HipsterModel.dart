@@ -5,10 +5,10 @@ import 'dart:json';
 
 import 'HipsterSync.dart';
 
-class HipsterModel {
-  var attributes;
-  var on = new ModelEvents();
-  var collection;
+class HipsterModel implements Hashable {
+  Map attributes;
+  ModelEvents on = new ModelEvents();
+  Collection collection;
 
   HipsterModel(this.attributes);
 
@@ -16,15 +16,15 @@ class HipsterModel {
     return (new Date.now()).value.hashCode().toRadixString(16);
   }
 
-  operator [](attr) {
-    return attributes[attr];
-  }
+  operator [](attr) => attributes[attr];
 
-  get url {
-    return (attributes['id'] == null) ?
+  get url => isSaved() ?
       urlRoot : "$urlRoot/${attributes['id']}";
-  }
-  get urlRoot { return ""; }
+
+  get urlRoot => collection ?
+    collection.url : "";
+
+  isSaved() => attributes['id'] == null;
 
   save({callback}) {
     HipsterSync.call('post', this, options: {
