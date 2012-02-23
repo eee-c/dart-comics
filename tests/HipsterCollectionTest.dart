@@ -1,5 +1,5 @@
-#import('../testing/unittest/unittest_dartest.dart');
-#import('../testing/dartest/dartest.dart');
+#import('lib/unittest/unittest_dartest.dart');
+#import('lib/dartest/dartest.dart');
 
 main() {
   test('Test Description',(){
