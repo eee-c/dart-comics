@@ -12,6 +12,11 @@ class HipsterSync {
     _injected_sync = fn;
   }
 
+  // delete the injected sync behavior
+  static useDefaultSync() {
+    _injected_sync = null;
+  }
+
   // static method for HipsterModel and HipsterCollection to invoke -- will
   // forward the call to the appropriate behavior (injected or default)
   static call(method, model, [options]) {
@@ -33,8 +38,10 @@ class HipsterSync {
 
     if (options.containsKey('onLoad')) {
       req.on.load.add((event) {
-        var request = event.target
-          , list = JSON.parse(request.responseText);
+        var request = event.target;
+        print(request.responseText);
+
+        var list = JSON.parse(request.responseText);
 
         options['onLoad'](list);
       });

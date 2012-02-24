@@ -2,6 +2,12 @@
 #import('lib/dartest/dartest.dart');
 
 #import("../public/scripts/HipsterCollection.dart");
+#import("../public/scripts/HipsterSync.dart");
+
+
+class TestHipsterCollection extends HipsterCollection {
+  String get url() => 'test.json';
+}
 
 main() {
   test('HipsterCollection has multiple models', (){
@@ -27,6 +33,52 @@ main() {
     test('is null when it does not hold ID', () {
       Expect.isNull(it[1]);
     });
+  });
+
+  test('HipsterCollection fetch() fails without a url', () {
+    HipsterCollection it = new HipsterCollection();
+    Expect.throws(() {it.fetch();});
+  });
+
+  group('HipsterCollection fetch() callback', () {
+    callbackSync(method, model, [options]) {
+      print("[sync] $method / $model");
+      options['onLoad']([]);
+      callbackDone();
+    }
+
+    asyncTest('is invoked', 1, () {
+      HipsterSync.sync = callbackSync;
+      HipsterCollection it = new TestHipsterCollection();
+      it.fetch();
+    });
+
+    asyncTest('dispatches a load event', 2, () {
+      HipsterCollection it = new TestHipsterCollection();
+
+      it.
+        on.
+        load.
+        add((event) {
+          callbackDone();
+        });
+
+      it.fetch();
+    });
+  });
+
+  asyncTest('HipsterCollection add dispatch add event', 1, () {
+    noOpSync(method, model, [options]) {}
+    HipsterCollection it = new TestHipsterCollection();
+
+    it.
+      on.
+      add.
+      add((event) {
+        callbackDone();
+      });
+
+    it.add({'id': 42});
   });
 
   new DARTest().run();
