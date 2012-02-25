@@ -69,6 +69,8 @@ main() {
 
   asyncTest('HipsterCollection add dispatch add event', 1, () {
     noOpSync(method, model, [options]) {}
+    HipsterSync.sync = noOpSync;
+
     HipsterCollection it = new TestHipsterCollection();
 
     it.
