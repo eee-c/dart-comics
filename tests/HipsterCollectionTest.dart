@@ -2,11 +2,16 @@
 #import('lib/dartest/dartest.dart');
 
 #import("../public/scripts/HipsterCollection.dart");
+#import("../public/scripts/HipsterModel.dart");
 #import("../public/scripts/HipsterSync.dart");
 
 
 class TestHipsterCollection extends HipsterCollection {
   String get url() => 'test.json';
+}
+
+class TestHipsterModel extends HipsterModel {
+  TestHipsterModel() : super({});
 }
 
 main() {
@@ -42,7 +47,6 @@ main() {
 
   group('HipsterCollection fetch() callback', () {
     callbackSync(method, model, [options]) {
-      print("[sync] $method / $model");
       options['onLoad']([]);
       callbackDone();
     }
@@ -80,7 +84,7 @@ main() {
         callbackDone();
       });
 
-    it.add({'id': 42});
+    it.add(new TestHipsterModel());
   });
 
   new DARTest().run();
