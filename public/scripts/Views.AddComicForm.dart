@@ -19,12 +19,12 @@ class AddComicForm extends HipsterView {
   }
 
   _attachUiHandlers() {
-    attach_handler(el, 'submit form', (event) {
+    attachHandler(el, 'submit form', (event) {
       event.preventDefault();
       _submit_create_form(event.target);
     });
 
-    attach_handler(el, 'click a', (event) {
+    attachHandler(el, 'click a', (event) {
       event.preventDefault();
       _disable_create_form(event);
     });
