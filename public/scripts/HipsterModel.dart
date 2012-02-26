@@ -21,8 +21,8 @@ class HipsterModel implements Hashable {
   get url => isSaved() ?
       urlRoot : "$urlRoot/${attributes['id']}";
 
-  get urlRoot => collection ?
-    collection.url : "";
+  get urlRoot => (collection == null) ?
+    "" : collection.url;
 
   isSaved() => attributes['id'] == null;
 
