@@ -44,7 +44,7 @@ class Comics extends HipsterView {
   }
 
   _attachUiHandlers() {
-    attach_handler(el, 'click .delete', (event) {
+    attachHandler(el, 'click .delete', (event) {
       print("[delete] ${event.target.parent.id}");
       collection[event.target.parent.id].delete(callback:(_) {
         event.target.parent.remove();
