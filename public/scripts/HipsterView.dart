@@ -11,8 +11,14 @@ class HipsterView {
   Element el;
 
   HipsterView([el, this.model, this.collection]) {
-    this.el = (this.el is Element) ? el : document.query(el);
+    if (el != null) {
+      this.el = (el is Element) ? el : document.query(el);
+    }
+
     this.post_initialize();
+
+    // TODO define an ensureElement to create a default, anonymous element
+    assert(this.el != null);
   }
 
   void post_initialize() { }
@@ -38,7 +44,7 @@ class HipsterView {
     });
   }
 
-  noSuchMethod(name, args) {
-    print("[noSuchMethod] $name");
-  }
+  // noSuchMethod(name, args) {
+  //   print("[noSuchMethod] $name");
+  // }
 }
