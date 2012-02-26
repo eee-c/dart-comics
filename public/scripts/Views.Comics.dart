@@ -15,7 +15,7 @@ class Comics extends HipsterView {
     if (collection == null) return;
 
     collection.on.load.add((event) { render(); });
-    collection.on.add.add((event) { render(); });
+    collection.on.insert.add((event) { render(); });
   }
 
   render() {
