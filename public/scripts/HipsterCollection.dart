@@ -48,7 +48,8 @@ class HipsterCollection implements Collection {
 
   add(model) {
     models.add(model);
-    on.add.
+    on.
+      insert.
       dispatch(new CollectionEvent('add', this, model:model));
   }
 
@@ -63,44 +64,42 @@ class HipsterCollection implements Collection {
   }
 }
 
-class CollectionEvent implements Event {
-  var _type, collection, _model;
-  CollectionEvent(this._type, this.collection, {model}) {
-    _model = model;
-  }
-  String get type {
-    return _type;
-  }
-  HipsterModel get model {
-    return _model;
-  }
-}
-
 class CollectionEvents implements Events {
-  var load_list, add_to_list;
+  CollectionEventList load_listeners = new CollectionEventList();
+  CollectionEventList insert_listeners = new CollectionEventList();
 
-  CollectionEvents() {
-    load_list = new CollectionEventList();
-    add_to_list = new CollectionEventList();
-  }
-
-  get load { return load_list; }
-  get add { return add_to_list; }
+  CollectionEventList get load() => load_listeners;
+  CollectionEventList get insert() => insert_listeners;
 }
 
 class CollectionEventList implements EventListenerList {
-  var listeners;
+  List listeners;
 
   CollectionEventList() {
     listeners = [];
   }
 
-  add(fn, [bool useCapture = false]) {
+  CollectionEventList add(fn, [bool useCapture = false]) {
     listeners.add(fn);
+    return this;
   }
 
-  bool dispatch(Event event) {
+  bool dispatch(CollectionEvent event) {
     listeners.forEach((fn) {fn(event);});
     return true;
   }
+}
+
+class CollectionEvent implements Event {
+  String _type;
+  HipsterCollection collection;
+  HipsterModel _model;
+
+  CollectionEvent(this._type, this.collection, [model]) {
+    _model = model;
+  }
+
+  String get type() =>_type;
+
+  HipsterModel get model() => _model;
 }
