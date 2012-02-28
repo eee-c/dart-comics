@@ -19,9 +19,7 @@ class HipsterCollection implements Collection {
     models.forEach(fn);
   }
 
-  int get length {
-    return models.length;
-  }
+  int get length => models.length;
 
   // Be Backbone like
   operator [](id) {
