@@ -21,15 +21,22 @@ class HipsterModel implements Hashable {
 
   get urlRoot() { return ""; }
 
+  bool useLocal() => true;
+
   noSuchMethod(name, args) {
     if (name != 'save') {
       throw new NoSuchMethodException(this, name, args);
     }
 
-    _defaultSave(callback: args[0]);
+    if (useLocal()) {
+      _localSave(callback: args[0]);
+    }
+    else {
+      _ajaxSave(callback: args[0]);
+    }
   }
 
-  _defaultSave([callback]) {
+  _ajaxSave([callback]) {
     var req = new XMLHttpRequest()
       , json = JSON.stringify(attributes);
 
