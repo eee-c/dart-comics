@@ -21,7 +21,30 @@ class HipsterModel implements Hashable {
 
   get urlRoot() { return ""; }
 
-  save([callback]) {
+  noSuchMethod(name, args) {
+    if (name != 'save') {
+      throw new NoSuchMethodException(this, name, args);
+    }
+
+    _defaultSave(callback: args[0]);
+  }
+
+  _defaultSave([callback]) {
+    var req = new XMLHttpRequest()
+      , json = JSON.stringify(attributes);
+
+    req.on.load.add((event) {
+      attributes = JSON.parse(req.responseText);
+      on.save.dispatch(event);
+      if (callback != null) callback(event);
+    });
+
+    req.open('post', '/comics', true);
+    req.setRequestHeader('Content-type', 'application/json');
+    req.send(json);
+  }
+
+  _localSave([callback]) {
     var id, event;
 
     if (attributes['id'] == null) {
