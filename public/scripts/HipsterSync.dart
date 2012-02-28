@@ -21,7 +21,7 @@ class HipsterSync {
   // forward the call to the appropriate behavior (injected or default)
   static call(method, model, [options]) {
     if (_injected_sync == null) {
-      return _default_sync(method, model, options:options);
+      return _defaultSync(method, model, options:options);
     }
     else {
       return _injected_sync(method, model, options:options);
@@ -29,32 +29,33 @@ class HipsterSync {
   }
 
   // default sync behavior
-  static _default_sync(method, model, [options]) {
-    print("[_default_sync]");
-
-    if (options == null) options = {};
-
+  static _defaultSync(method, model, [options]) {
     var req = new XMLHttpRequest();
 
-    if (options.containsKey('onLoad')) {
-      req.on.load.add((event) {
-        var request = event.target;
-        print(request.responseText);
-
-        var list = JSON.parse(request.responseText);
-
-        options['onLoad'](list);
-      });
-    }
+    _attachCallbacks(req, options);
 
     req.open(method, model.url, true);
 
+    // POST and PUT HTTP request bodies if necessary
     if (method == 'post' || method == 'put') {
       req.setRequestHeader('Content-type', 'application/json');
       req.send(JSON.stringify(model.attributes));
     }
     else {
       req.send();
+    }
+  }
+
+  static _attachCallbacks(request, options) {
+    if (options == null) return;
+
+    if (options.containsKey('onLoad')) {
+      request.on.load.add((event) {
+        var req = event.target,
+            json = JSON.parse(req.responseText);
+
+        options['onLoad'](json);
+      });
     }
   }
 }
