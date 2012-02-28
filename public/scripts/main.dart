@@ -8,7 +8,7 @@ import 'Views.AddComic.dart' as Views;
 #import('HipsterSync.dart');
 
 main() {
-  // HipsterSync.sync = local_sync;
+  // HipsterSync.sync = localSync;
 
   var my_comics_collection = new Collections.Comics()
     , comics_view = new Views.Comics(
@@ -24,7 +24,7 @@ main() {
   );
 }
 
-local_sync(method, model, [options]) {
+localSync(method, model, [options]) {
   print("[local_sync] $method");
 
   if (method == 'get') {
