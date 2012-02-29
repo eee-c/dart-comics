@@ -17,6 +17,7 @@ class HipsterModel implements Hashable {
   }
 
   operator [](attr) => attributes[attr];
+  operator |(callback) => save(callback: callback);
 
   get url => isSaved() ?
       urlRoot : "$urlRoot/${attributes['id']}";
