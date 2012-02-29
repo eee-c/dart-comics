@@ -39,9 +39,9 @@ class HipsterCollection implements Collection {
   create(attrs) {
     var new_model = modelMaker(attrs);
     new_model.collection = this;
-    new_model | (event) {
+    new_model.save(callback:(event) {
       this.add(new_model);
-    };
+    });
   }
 
   add(model) {
