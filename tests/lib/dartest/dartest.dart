@@ -128,7 +128,7 @@ class DARTest{
   /** Get test results as table cells. */
   void _addTestDetails(TestCase t, HTMLTableRowElement row) {
     HTMLTableCellElement testId = _runnerWindow.document.createElement('td');
-    testId.textContent = t.id;
+    testId.textContent = t.id.toString();
     row.appendChild(testId);
     
     HTMLTableCellElement testDesc = _runnerWindow.document.createElement('td');
