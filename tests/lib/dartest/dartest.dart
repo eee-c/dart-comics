@@ -45,14 +45,14 @@ class DARTest{
   AppElements _inAppElements, _fullAppElements, _appElements;
   DOMWindow _runnerWindow;
 
-  DARTest() {
+  DARTest() { 
     _runnerWindow = window;
     dartestLogger = _log;
     _inAppElements = new AppElements();
     _appElements = _inAppElements;
     DARTestCss.inject(document, true);
   }
-
+  
   void run() {
     _renderMain();
     _createResultsTable();
@@ -61,7 +61,7 @@ class DARTest{
   void _log(String message) {
     _runnerWindow.console.log(message);
   }
-
+  
   /** Create the results table after loading tests. */
   void _createResultsTable() {
     _log('Creating results table');
@@ -70,25 +70,25 @@ class DARTest{
     HTMLTableSectionElement head = _runnerWindow.document.createElement('thead');
     head.innerHTML = '<tr><th>ID <th>Description <th>Result';
     table.appendChild(head);
-
+    
     HTMLTableSectionElement body = _runnerWindow.document.createElement('tbody');
     body.id = 'dt-results-body';
     tests.forEach((final t) {
-      HTMLTableRowElement testDetailRow =
+      HTMLTableRowElement testDetailRow = 
         _runnerWindow.document.createElement('tr');
       testDetailRow.id = 'dt-test-${t.id}';
       _addTestDetails(t, testDetailRow);
       body.appendChild(testDetailRow);
-
-      HTMLTableRowElement testMessageRow =
+      
+      HTMLTableRowElement testMessageRow = 
         _runnerWindow.document.createElement('tr');
       testMessageRow.id = 'dt-detail-${t.id}';
       testMessageRow.className = 'dt-hide';
       body.appendChild(testMessageRow);
     });
-
+    
     table.appendChild(body);
-
+    
     if(_appElements.testBody != null) {
       _appElements.testBody.appendChild(table);
     }
@@ -100,11 +100,11 @@ class DARTest{
     row.className = 'dt-result-row';
     row.innerHTML = ''; // Remove all children as we will re-populate them
     _addTestDetails(t, row);
-
-    HTMLTableRowElement details =
+    
+    HTMLTableRowElement details = 
       domWin.document.getElementById('dt-detail-${t.id}');
     details.appendChild(_getTestStats(t, domWin));
-
+    
     row.addEventListener('click', (Event e) {
         if(details.className == 'dt-hide') {
           details.className = '';
@@ -113,7 +113,7 @@ class DARTest{
         }
       }, true);
   }
-
+  
   /** Escape HTML special chars. */
   String _escape(String str) {
     str = str.replaceAll('&','&amp;');
@@ -124,17 +124,17 @@ class DARTest{
     str = str.replaceAll('/','&#x2F;');
     return str;
   }
-
+  
   /** Get test results as table cells. */
   void _addTestDetails(TestCase t, HTMLTableRowElement row) {
     HTMLTableCellElement testId = _runnerWindow.document.createElement('td');
-    testId.textContent = t.id.toString();
+    testId.textContent = t.id;
     row.appendChild(testId);
-
+    
     HTMLTableCellElement testDesc = _runnerWindow.document.createElement('td');
     testDesc.textContent = t.description;
     row.appendChild(testDesc);
-
+    
     HTMLTableCellElement testResult = _runnerWindow.document.createElement('td');
     String result = (t.result == null) ? 'none' : _escape(t.result);
     testResult.className = 'dt-$result';
@@ -142,11 +142,11 @@ class DARTest{
     testResult.textContent = result.toUpperCase();
     row.appendChild(testResult);
   }
-
+  
   HTMLTableCellElement _getTestStats(TestCase t, DOMWindow domWin) {
     HTMLTableCellElement tableCell = domWin.document.createElement('td');
     tableCell.colSpan = 3;
-
+    
     if(t.message != '') {
       HTMLSpanElement messageSpan = domWin.document.createElement('span');
       messageSpan.textContent = t.message;
@@ -157,21 +157,21 @@ class DARTest{
       HTMLPreElement stackTacePre = domWin.document.createElement('pre');
       stackTacePre.textContent = t.stackTrace;
     }
-
+    
     HTMLSpanElement durationSpan = domWin.document.createElement('span');
     durationSpan.textContent = 'took ${_printDuration(t.runningTime)}';
     tableCell.appendChild(durationSpan);
-
+    
     return tableCell;
   }
-
+  
   /** Update the UI after running test. */
   void _updateDARTestUI(TestCase test_) {
     _updateResultsTable(test_, window);
     if(_runnerWindow != window) {
       _updateResultsTable(test_, _runnerWindow);
     }
-
+    
     if(test_.result != null) {
       _log('  Result: ${test_.result.toUpperCase()} ${test_.message}');
     }
@@ -183,10 +183,10 @@ class DARTest{
       _updateStatusProgress(_inAppElements);
     }
   }
-
+  
   void _updateStatusProgress(AppElements elements) {
     // Update progressbar
-    var pPass =
+    var pPass = 
       ((testsRun - testsFailed - testsErrors) / tests.length) * 100;
     elements.green.setAttribute('style', 'width:$pPass%');
     var pFailed = pPass + (testsFailed / tests.length) * 100;
@@ -199,7 +199,7 @@ class DARTest{
     elements.testsFailedElem.textContent = testsFailed.toString();
     elements.testsErrorsElem.textContent = testsErrors.toString();
   }
-
+  
   String _printDuration(Duration timeDuration) {
     StringBuffer out = new StringBuffer();
     if(timeDuration.inDays > 0) {
@@ -225,14 +225,14 @@ class DARTest{
     HTMLDivElement containerDiv = _runnerWindow.document.createElement('div');
     containerDiv.className = 'dt-container';
     _appElements.containerDiv = containerDiv;
-
+    
     // Add the test controls
     HTMLDivElement mainElem = _runnerWindow.document.createElement('div');
     mainElem.className = 'dt-main';
     _appElements.mainElem = mainElem;
-
+    
     _showTestControls();
-
+    
     // Create header to hold window controls
     if(_runnerWindow == window) {
       HTMLDivElement headDiv = _runnerWindow.document.createElement('div');
@@ -264,7 +264,7 @@ class DARTest{
       headDiv.appendChild(close);
       headDiv.appendChild(pop);
       headDiv.appendChild(minMax);
-
+      
       containerDiv.appendChild(headDiv);
     }
 
@@ -285,33 +285,33 @@ class DARTest{
       _showCoverageControls();
       _changeTabs(coverageTab, testingTab);
     }, true);
-    tabList.appendChild(coverageTab);
+    tabList.appendChild(coverageTab); 
     tabDiv.appendChild(tabList);
     containerDiv.appendChild(tabDiv);
-
+    
     if(_runnerWindow != window) {
       HTMLDivElement popIn = _runnerWindow.document.createElement('div');
       popIn.className = 'dt-minimize';
       popIn.innerHTML = 'Pop In &#8690;';
       popIn.addEventListener('click', (event) => _dartestMinimize(), true);
       containerDiv.appendChild(popIn);
-    }
-
+    }  
+    
     containerDiv.appendChild(mainElem);
     _runnerWindow.document.body.appendChild(containerDiv);
   }
-
+  
   void _changeTabs(HTMLLIElement clickedTab, HTMLLIElement oldTab) {
     oldTab.className = '';
     clickedTab.className = 'dt-tab-selected';
   }
-
+  
   void _showTestControls() {
     HTMLDivElement testBody = _appElements.testBody;
     if(testBody == null) {
       testBody = _runnerWindow.document.createElement('div');
       _appElements.testBody = testBody;
-
+    
       // Create a toolbar to hold action buttons
       HTMLDivElement toolDiv = _runnerWindow.document.createElement('div');
       toolDiv.className = 'dt-toolbar';
@@ -325,7 +325,7 @@ class DARTest{
         runDartests();
       }, true);
       toolDiv.appendChild(runBtn);
-      HTMLButtonElement exportBtn =
+      HTMLButtonElement exportBtn = 
         _runnerWindow.document.createElement('button');
       exportBtn.innerHTML = '&#8631;';
       exportBtn.title = 'Export Results';
@@ -336,7 +336,7 @@ class DARTest{
       }, true);
       toolDiv.appendChild(exportBtn);
       testBody.appendChild(toolDiv);
-
+      
       // Create a datalist element for showing test status
       HTMLDListElement statList = _runnerWindow.document.createElement('dl');
       statList.className = 'dt-status';
@@ -347,7 +347,7 @@ class DARTest{
       _appElements.testsRunElem = testsRunElem;
       testsRunElem.textContent = testsRun.toString();
       statList.appendChild(testsRunElem);
-
+  
       HTMLElement failDt = _runnerWindow.document.createElement('dt');
       failDt.textContent = 'Failed:';
       statList.appendChild(failDt);
@@ -355,77 +355,77 @@ class DARTest{
       _appElements.testsFailedElem = testsFailedElem;
       testsFailedElem.textContent = testsFailed.toString();
       statList.appendChild(testsFailedElem);
-
+  
       HTMLElement errDt = _runnerWindow.document.createElement('dt');
       errDt.textContent = 'Errors:';
       statList.appendChild(errDt);
       HTMLElement testsErrorsElem = _runnerWindow.document.createElement('dd');
       _appElements.testsErrorsElem = testsErrorsElem;
       testsErrorsElem.textContent = testsErrors.toString();
-      statList.appendChild(testsErrorsElem);
+      statList.appendChild(testsErrorsElem);  
       testBody.appendChild(statList);
-
+      
       // Create progressbar and add red, green, orange bars
       HTMLDivElement progressDiv = _runnerWindow.document.createElement('div');
       progressDiv.className = 'dt-progressbar';
       progressDiv.innerHTML = "<span style='width:100%'></span>";
-
+      
       HTMLSpanElement orange = _runnerWindow.document.createElement('span');
       _appElements.orange = orange;
       orange.className = 'orange';
       progressDiv.appendChild(orange);
-
+  
       HTMLSpanElement red = _runnerWindow.document.createElement('span');
       _appElements.red = red;
       red.className = 'red';
       progressDiv.appendChild(red);
-
+      
       HTMLSpanElement green = _runnerWindow.document.createElement('span');
       _appElements.green = green;
       green.className = 'green';
-
+  
       progressDiv.appendChild(green);
       testBody.appendChild(progressDiv);
-
+      
       HTMLDivElement hiddenElem = _runnerWindow.document.createElement('div');
       hiddenElem.className = 'dt-hide';
-      hiddenElem.innerHTML =
+      hiddenElem.innerHTML = 
         "<a id='dt-export' download='test_results.csv' href='#' />";
       testBody.appendChild(hiddenElem);
-
+      
       if(_appElements.mainElem != null) {
         _appElements.mainElem.appendChild(testBody);
       }
     }
-
+    
     // Show hide divs
     _show(_appElements.testBody);
     _hide(_appElements.coverageBody);
-  }
-
+  } 
+  
   void _showCoverageControls() {
     HTMLDivElement coverageBody = _appElements.coverageBody;
     if(coverageBody == null) {
       coverageBody = _runnerWindow.document.createElement('div');
       _appElements.coverageBody = coverageBody;
-
+      
       HTMLPreElement covPreElem = _runnerWindow.document.createElement('pre');
       _appElements.covPreElem = covPreElem;
       coverageBody.appendChild(covPreElem);
-
+      
       HTMLTableElement covTable = _runnerWindow.document.createElement('table');
       covTable.className = 'dt-results';
-      HTMLTableSectionElement head =
+      HTMLTableSectionElement head = 
         _runnerWindow.document.createElement('thead');
       head.innerHTML = '<tr><th>Unit <th>Function <th>Statement <th>Branch';
       covTable.appendChild(head);
-      HTMLTableSectionElement covTableBody =
+      HTMLTableSectionElement covTableBody = 
         _runnerWindow.document.createElement('tbody');
       _appElements.covTableBody = covTableBody;
       covTableBody.id = 'dt-results-body';
       covTable.appendChild(covTableBody);
       coverageBody.appendChild(covTable);
-
+      
       if(_appElements.mainElem != null) {
         _appElements.mainElem.appendChild(coverageBody);
       }
@@ -434,11 +434,11 @@ class DARTest{
     _hide(_appElements.testBody);
 
     _appElements.covPreElem.textContent = getCoverageSummary();
-
+    
     // Coverage table has unit names and integers and won't have special chars
     _appElements.covTableBody.innerHTML = getCoverageDetails();
   }
-
+  
   void _show(HTMLElement show) {
     if(show != null) {
       if(show.classList.contains('dt-hide')) {
@@ -447,7 +447,7 @@ class DARTest{
       show.classList.add('dt-show');
     }
   }
-
+  
   void _hide(HTMLElement hide) {
     if(hide != null) {
       if(hide.classList.contains('dt-show')) {
@@ -459,7 +459,7 @@ class DARTest{
 
   void _dartestMaximize() {
     _hide(_appElements.containerDiv);
-    _runnerWindow = window.open('', 'dartest-window',
+    _runnerWindow = window.open('', 'dartest-window', 
       DARTestCss._fullAppWindowFeatures);
     _runnerWindow.document.title = 'Dartest';
     _fullAppElements = new AppElements();
@@ -470,7 +470,7 @@ class DARTest{
       tests.forEach((final t) => _updateDARTestUI(t));
     }
   }
-
+  
   void _dartestMinimize() {
     _runnerWindow.close();
     _runnerWindow = window;
@@ -481,9 +481,9 @@ class DARTest{
   void _exportTestResults() {
     String csvData = getTestResultsCsv();
     _log(csvData);
-    HTMLAnchorElement exportLink =
+    HTMLAnchorElement exportLink = 
       _runnerWindow.document.getElementById('dt-export');
-
+    
     /** Bug: Can't instantiate WebKitBlobBuilder
      *  If this bug is fixed, we can remove the urlencode and lpad function.
      *
@@ -492,21 +492,21 @@ class DARTest{
      *  Blob blob = bb.getBlob('text/plain;charset=${document.characterSet}');
      *  exportLink.href = window.webkitURL.createObjectURL(blob);
      **/
-
+    
     exportLink.href = 'data:text/csv,' + _urlencode(csvData);
-
+    
     MouseEvent ev = document.createEvent("MouseEvents");
     ev.initMouseEvent("click", true, false, window, 0, 0, 0, 0, 0
         , false, false, false, false, 0, null);
     exportLink.dispatchEvent(ev);
-
+    
   }
 
   static String _urlencode(String s) {
     StringBuffer out = new StringBuffer();
     for(int i = 0; i < s.length; i++) {
       int cc = s.charCodeAt(i);
-      if((cc >= 48 && cc <= 57) || (cc >= 65 && cc <= 90) ||
+      if((cc >= 48 && cc <= 57) || (cc >= 65 && cc <= 90) || 
           (cc >= 97 && cc <= 122)) {
         out.add(s[i]);
       } else {
