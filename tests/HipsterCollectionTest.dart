@@ -15,6 +15,9 @@ class TestHipsterModel extends HipsterModel {
 }
 
 main() {
+  setCoverageTotals('foo', 1, 0, 0);
+  coverFunction('foo', 'funcBar');
+
   test('HipsterCollection has multiple models', (){
     HipsterCollection it = new HipsterCollection();
     it.models = [{'id': 17}, {'id': 42}];
