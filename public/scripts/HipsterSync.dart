@@ -19,43 +19,41 @@ class HipsterSync {
 
   // static method for HipsterModel and HipsterCollection to invoke -- will
   // forward the call to the appropriate behavior (injected or default)
-  static call(method, model, [options]) {
+  static Future<Dynamic> call(method, model) {
     if (_injected_sync == null) {
-      return _defaultSync(method, model, options:options);
+      return _defaultSync(method, model);
     }
     else {
-      return _injected_sync(method, model, options:options);
+      return _injected_sync(method, model);
     }
   }
 
   // default sync behavior
-  static _defaultSync(method, model, [options]) {
-    var req = new XMLHttpRequest();
+  static Future<Dynamic> _defaultSync(method, model) {
+    var request = new XMLHttpRequest(),
+        completer = new Completer();
 
-    _attachCallbacks(req, options);
-
-    req.open(method, model.url, true);
-
-    // POST and PUT HTTP request bodies if necessary
-    if (method == 'post' || method == 'put') {
-      req.setRequestHeader('Content-type', 'application/json');
-      req.send(JSON.stringify(model.attributes));
-    }
-    else {
-      req.send();
-    }
-  }
-
-  static _attachCallbacks(request, options) {
-    if (options == null) return;
-
-    if (options.containsKey('onLoad')) {
-      request.on.load.add((event) {
+    request.
+      on.
+      load.
+      add((event) {
         var req = event.target,
             json = JSON.parse(req.responseText);
 
-        options['onLoad'](json);
+        completer.complete(json);
       });
+
+    request.open(method, model.url, true);
+
+    // POST and PUT HTTP request bodies if necessary
+    if (method == 'post' || method == 'put') {
+      request.setRequestHeader('Content-type', 'application/json');
+      request.send(JSON.stringify(model.attributes));
     }
+    else {
+      request.send();
+    }
+
+    return completer.future;
   }
 }

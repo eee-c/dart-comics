@@ -11,7 +11,7 @@ class HipsterModel implements Hashable {
   ModelEvents on;
   Collection collection;
 
-  HipsterModel(this.attributes) {
+  HipsterModel(this.attributes, [this.collection]) {
     on = new ModelEvents();
   }
 
@@ -27,28 +27,35 @@ class HipsterModel implements Hashable {
   get urlRoot() => (collection == null) ?
     "" : collection.url;
 
-  isSaved() => attributes['id'] == null;
+  bool isSaved() => attributes['id'] == null;
 
-  save([callback]) {
-    HipsterSync.call('post', this, options: {
-      'onLoad': (attrs) {
-        attributes = attrs;
+  Future<HipsterModel> save() {
+    Completer completer = new Completer();
 
-        var event = new ModelEvent('save', this);
-        on.load.dispatch(event);
-        if (callback != null) callback(event);
-      }
-    });
+    HipsterSync.
+      call('post', this).
+      then((attrs) {
+        this.attributes = attrs;
+        on.load.dispatch(new ModelEvent('save', this));
+        completer.complete(this);
+      });
+
+    return completer.future;
   }
 
-  delete([callback]) {
-    HipsterSync.call('delete', this, options: {
-      'onLoad': (attrs) {
+  Future<HipsterModel> delete() {
+    Completer completer = new Completer();
+
+    HipsterSync.
+      call('delete', this).
+      then((attrs) {
         var event = new ModelEvent('delete', this);
         on.delete.dispatch(event);
-        if (callback != null) callback(event);
-      }
-    });
+
+        completer.complete(this);
+      });
+
+    return completer.future;
   }
 
 }

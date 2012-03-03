@@ -37,17 +37,25 @@ class HipsterCollection implements Collection {
   }
 
   fetch() {
-    HipsterSync.call('get', this, options: {
-      'onLoad': _handleOnLoad
-    });
+    HipsterSync.
+      call('get', this).
+      then((list) {
+        list.forEach((attrs) {
+          var new_model = modelMaker(attrs);
+          new_model.collection = this;
+          models.add(new_model);
+        });
+
+        on.load.dispatch(new CollectionEvent('load', this));
+      });
   }
 
   create(attrs) {
-    var new_model = modelMaker(attrs);
-    new_model.collection = this;
-    new_model.save(callback:(event) {
-      this.add(new_model);
-    });
+    _buildModel(attrs).
+      save().
+      then((saved_model) {
+        this.add(saved_model);
+      });
   }
 
   add(model) {
@@ -57,14 +65,10 @@ class HipsterCollection implements Collection {
       dispatch(new CollectionEvent('add', this, model:model));
   }
 
-  _handleOnLoad(list) {
-    list.forEach((attrs) {
-      var new_model = modelMaker(attrs);
-      new_model.collection = this;
-      models.add(new_model);
-    });
-
-    on.load.dispatch(new CollectionEvent('load', this));
+  _buildModel(attrs) {
+    var new_model = modelMaker(attrs);
+    new_model.collection = this;
+    return new_model;
   }
 }
 
