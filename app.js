@@ -49,13 +49,15 @@ app.delete('/comics/:id', function(req, res) {
 });
 
 app.post('/comics', function(req, res) {
-  var graphic_novel = req.body;
-  graphic_novel['id'] = dirtyUuid();
+  res.send(409);
 
-  db.set(graphic_novel['id'], graphic_novel);
+  // var graphic_novel = req.body;
+  // graphic_novel['id'] = dirtyUuid();
 
-  res.statusCode = 201;
-  res.send(JSON.stringify(graphic_novel));
+  // db.set(graphic_novel['id'], graphic_novel);
+
+  // res.statusCode = 201;
+  // res.send(JSON.stringify(graphic_novel));
 });
 
 
