@@ -1,6 +1,6 @@
 #library('Collection View for My Comic Book Collection');
 
-#import('HipsterView.dart');
+#import('https://raw.github.com/eee-c/hipster-mvc/master/HipsterView.dart');
 
 class Comics extends HipsterView {
   Comics([collection, el]):
