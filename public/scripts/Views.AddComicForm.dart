@@ -86,9 +86,14 @@ Dead Tree</label></p>
       , author = el.query('input[name=author]')
       , format = el.queryAll('input[name=format]');
 
-    collection.create({
-      'title':title.value,
-      'author':author.value
-    });
+    try {
+      collection.create({
+        'title':title.value,
+        'author':author.value
+      });
+    }
+    catch (Exception e) {
+      print("Exception handled: ${e.type}");
+    }
   }
 }
