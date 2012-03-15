@@ -4,6 +4,7 @@
  */
 
 var express = require('express')
+  , WebSocketServer = require('websocket').server
   , db = require('dirty')('comix.db')
   , dirtyUuid = require('dirty-uuid');
 
@@ -35,13 +36,16 @@ app.get('/new', function(req, res){
 });
 
 app.get('/comics', function(req, res) {
+  res.send(jsonComics);
+});
+
+function jsonComics() {
   var list = [];
   db.forEach(function(id, graphic_novel) {
     if (graphic_novel) list.push(graphic_novel);
   });
-
-  res.send(JSON.stringify(list));
-});
+  return JSON.stringify(list);
+}
 
 app.delete('/comics/:id', function(req, res) {
   db.rm(req.params.id);
@@ -61,3 +65,28 @@ app.post('/comics', function(req, res) {
 
 app.listen(3000);
 console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
+
+
+// Websockets!
+
+wsServer = new WebSocketServer({
+  httpServer: app,
+  autoAcceptConnections: false
+});
+
+wsServer.on('request', function(request) {
+  var connection = request.accept(null, request.origin);
+  console.log((new Date()) + ' Connection accepted.');
+
+  connection.on('message', function(message) {
+    if (message.type === 'utf8') {
+      console.log('Received Message: ' + message.utf8Data);
+
+      connection.sendUTF(jsonComics());
+    }
+  });
+
+  connection.on('close', function(reasonCode, description) {
+    console.log((new Date()) + ' Peer ' + connection.remoteAddress + ' disconnected.');
+  });
+});
