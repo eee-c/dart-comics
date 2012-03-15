@@ -7,22 +7,50 @@
 
 #import('HipsterSync.dart');
 
-main() {
-  // HipsterSync.sync = localSync;
+WebSocket ws;
 
-  var my_comics_collection = new Collections.Comics()
-    , comics_view = new Views.Comics(
-        el:'#comics-list',
+main() {
+  HipsterSync.sync = wsSync;
+  ws = new WebSocket("ws://localhost:3000/");
+
+  // After open, initialize the app...
+  ws.
+    on.
+    open.
+    add((event) {
+      var my_comics_collection = new Collections.Comics()
+        , comics_view = new Views.Comics(
+            el:'#comics-list',
+            collection: my_comics_collection
+          );
+
+      my_comics_collection.fetch();
+
+      new Views.AddComic(
+        el:'#add-comic',
         collection: my_comics_collection
       );
-
-  my_comics_collection.fetch();
-
-  new Views.AddComic(
-    el:'#add-comic',
-    collection: my_comics_collection
-  );
+    });
 }
+
+wsSync(method, model) {
+  final completer = new Completer();
+
+  ws.send(method);
+
+  // Handle messages from the server, completing the completer
+  ws.
+    on.
+    message.
+    add((event) {
+      print("The data in the event is: " + event.data);
+
+      completer.complete(JSON.parse(event.data));
+    });
+
+  return completer.future;
+}
+
 
 localSync(method, model) {
   final completer = new Completer();
