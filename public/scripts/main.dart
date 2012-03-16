@@ -36,21 +36,27 @@ main() {
 wsSync(method, model) {
   final completer = new Completer();
 
-  ws.send(method);
+  String message = "$method: ${model.url}";
+  if (method == 'delete') message = "$method: ${model.id}";
+  if (method == 'create') message = "$method: ${JSON.stringify(model.attributes)}";
+
+  print("sending: $message");
+  ws.send(message);
 
   // Handle messages from the server, completing the completer
   ws.
     on.
     message.
-    add((event) {
+    add(_hwse(event) {
       print("The data in the event is: " + event.data);
 
       completer.complete(JSON.parse(event.data));
+
+      ws.on.message.remove(_hwse);
     });
 
   return completer.future;
 }
-
 
 localSync(method, model) {
   final completer = new Completer();

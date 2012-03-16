@@ -48,19 +48,29 @@ function jsonComics() {
 }
 
 app.delete('/comics/:id', function(req, res) {
-  db.rm(req.params.id);
-  res.send('{}');
+  var response = deleteComic(req.params.id);
+  res.send(response);
 });
 
+function deleteComic(id) {
+  db.rm(id);
+  return '{}';
+}
+
 app.post('/comics', function(req, res) {
-  var graphic_novel = req.body;
+  var graphic_novel = createComic(req.body);
+
+  res.statusCode = 201;
+  res.send(graphic_novel);
+});
+
+function createComic(graphic_novel) {
   graphic_novel['id'] = dirtyUuid();
 
   db.set(graphic_novel['id'], graphic_novel);
 
-  res.statusCode = 201;
-  res.send(JSON.stringify(graphic_novel));
-});
+  return JSON.stringify(graphic_novel);
+}
 
 
 app.listen(3000);
@@ -82,7 +92,18 @@ wsServer.on('request', function(request) {
     if (message.type === 'utf8') {
       console.log('Received Message: ' + message.utf8Data);
 
-      connection.sendUTF(jsonComics());
+      var response;
+      if (/^read/.test(message.utf8Data)) {
+        response = jsonComics();
+      }
+      else if (/^create: (.+)/.test(message.utf8Data)) {
+        response = createComic(JSON.parse(RegExp.$1));
+      }
+      else if (/^delete: (.+)/.test(message.utf8Data)) {
+        response = deleteComic(RegExp.$1);
+      }
+      console.log("replying with: " + response);
+      connection.sendUTF(response);
     }
   });
 
