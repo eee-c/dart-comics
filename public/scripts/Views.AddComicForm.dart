@@ -13,8 +13,8 @@ class AddComicForm extends HipsterView {
   }
 
   _addToDom() {
-    this.el = new Element.html('<div id="add-comic-form"/>');
-    this.el.style.opacity = "0";
+    el = new Element.html('<div id="add-comic-form"/>');
+
     document.body.nodes.add(this.el);
   }
 
@@ -31,10 +31,13 @@ class AddComicForm extends HipsterView {
   }
 
   render() {
-    this.el.innerHTML = template();
+    el.style.opacity = '0';
+    el.innerHTML = template();
 
-    el.style.transition = 'opacity 1s ease-in-out';
-    el.style.opacity = "1";
+    window.setTimeout(() {
+      el.style.transition = '1s';
+      el.style.opacity = '1';
+    }, 1);
   }
 
   remove() {
