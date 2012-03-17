@@ -47,12 +47,11 @@ wsSync(method, model) {
   ws.
     on.
     message.
-    add(_hwse(event) {
+    add(_wsHandler(event) {
       print("The data in the event is: " + event.data);
-
       completer.complete(JSON.parse(event.data));
 
-      ws.on.message.remove(_hwse);
+      event.target.on.message.remove(_wsHandler);
     });
 
   return completer.future;
