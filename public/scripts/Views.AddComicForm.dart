@@ -1,22 +1,18 @@
 #library('Form view to add new comic book to my sweet collection.');
 
 #import('dart:html');
-
+#import('ModalDialog.dart');
 #import('https://raw.github.com/eee-c/hipster-mvc/master/HipsterView.dart');
 
 class AddComicForm extends HipsterView {
+  Element modal;
+
   AddComicForm([collection, model, el]):
     super(collection:collection, model:model, el:el);
 
   post_initialize() {
-    _addToDom();
+    el = modal = new ModalDialog.html(template());
     _attachUiHandlers();
-  }
-
-  _addToDom() {
-    el = new Element.html('<div id="add-comic-form"/>');
-
-    document.body.nodes.add(this.el);
   }
 
   _attachUiHandlers() {
@@ -31,57 +27,13 @@ class AddComicForm extends HipsterView {
     });
   }
 
-  Element bg;
-  render() {
-    // Black background
-    bg = new Element.tag('div');
-    document.body.nodes.add(bg);
+  void render() { modal.show(); }
 
-    window.document.rect.then((document) {
-      // Place the background above the document
-      bg.style.position = 'absolute';
-      bg.style.top = '0px';
-      bg.style.left = '0px';
-
-      bg.style.width = "${document.offset.width}px";
-      bg.style.height = "${document.client.height}px";
-
-      bg.style.backgroundColor = 'black';
-      bg.style.opacity = '0.8';
-      bg.style.zIndex = '1000';
-
-      // Place the modal dialog on top of the background
-      el.style.opacity = '0';
-      el.innerHTML = template();
-
-      el.style.position = 'absolute';
-      el.style.top = '0px';
-      el.style.left = '0px';
-
-      el.style.backgroundColor = 'white';
-      el.style.padding = '20px';
-      el.style.borderRadius = '10px';
-
-      el.style.zIndex = '1001';
-
-      el.rect.then((dialog) {
-        el.style.top = '80px';
-        int offset_left = document.offset.width/2 - dialog.offset.width/2;
-        el.style.left = "${offset_left}px";
-
-        el.style.transition = 'opacity 1s ease-in-out';
-        el.style.opacity = '1';
-      });
-    });
-  }
-
-  remove() {
-    this.el.remove();
-    this.bg.remove();
-  }
+  void remove() { modal.hide(); }
 
   template() {
     return """
+<div id="add-comic-form">
 <form action="comics" id="new-comic-form">
 <p>
 <label>Title<br/>
@@ -108,6 +60,7 @@ Dead Tree</label></p>
 <input type="submit" value="Bazinga!"/></p>
 <a href="#">Cancel</a>
 </form>
+</div>
 """;
   }
 
