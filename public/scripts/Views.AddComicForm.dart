@@ -31,18 +31,53 @@ class AddComicForm extends HipsterView {
     });
   }
 
+  Element bg;
   render() {
-    el.style.opacity = '0';
-    el.innerHTML = template();
+    // Black background
+    bg = new Element.tag('div');
+    document.body.nodes.add(bg);
 
-    window.setTimeout(() {
-      el.style.transition = '1s';
-      el.style.opacity = '1';
-    }, 1);
+    window.document.rect.then((document) {
+      // Place the background above the document
+      bg.style.position = 'absolute';
+      bg.style.top = '0px';
+      bg.style.left = '0px';
+
+      bg.style.width = "${document.offset.width}px";
+      bg.style.height = "${document.client.height}px";
+
+      bg.style.backgroundColor = 'black';
+      bg.style.opacity = '0.8';
+      bg.style.zIndex = '1000';
+
+      // Place the modal dialog on top of the background
+      el.style.opacity = '0';
+      el.innerHTML = template();
+
+      el.style.position = 'absolute';
+      el.style.top = '0px';
+      el.style.left = '0px';
+
+      el.style.backgroundColor = 'white';
+      el.style.padding = '20px';
+      el.style.borderRadius = '10px';
+
+      el.style.zIndex = '1001';
+
+      el.rect.then((dialog) {
+        el.style.top = '80px';
+        int offset_left = document.offset.width/2 - dialog.offset.width/2;
+        el.style.left = "${offset_left}px";
+
+        el.style.transition = 'opacity 1s ease-in-out';
+        el.style.opacity = '1';
+      });
+    });
   }
 
   remove() {
     this.el.remove();
+    this.bg.remove();
   }
 
   template() {
@@ -77,7 +112,7 @@ Dead Tree</label></p>
   }
 
   _disable_create_form(event) {
-    el.style.opacity = "0";
+    remove();
 
     el.queryAll('a').forEach((a) {
       a.on.click.remove(_disable_create_form);
