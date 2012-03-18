@@ -24,12 +24,23 @@ class HipsterSync {
       return _defaultSync(method, model);
     }
     else {
+      // TODO check for null future returned from _injected_sync
       return _injected_sync(method, model);
     }
   }
 
+  static Map _methodMap = const {
+    'create': 'post',
+    'update': 'put',
+    'read': 'get'
+  };
+
   // default sync behavior
-  static Future<dynamic> _defaultSync(method, model) {
+  static Future _defaultSync(_method, model) {
+    String method = _method.toLowerCase(),
+           verb   = _methodMap.containsKey(method) ?
+                      _methodMap[method] : method;
+
     var request = new HttpRequest(),
         completer = new Completer();
 
@@ -37,15 +48,22 @@ class HipsterSync {
       on.
       load.
       add((event) {
-        var req = event.target,
-            json = JSON.parse(req.responseText);
-        completer.complete(json);
+        var req = event.target;
+
+        if (req.status > 299) {
+          completer.
+            completeException("That ain't gonna work: ${req.status}");
+        }
+        else {
+          var json = JSON.parse(req.responseText);
+          completer.complete(json);
+        }
       });
 
-    request.open(method, model.url, true);
+    request.open(verb, model.url, true);
 
     // POST and PUT HTTP request bodies if necessary
-    if (method == 'post' || method == 'put') {
+    if (verb == 'post' || verb == 'put') {
       request.setRequestHeader('Content-type', 'application/json');
       request.send(JSON.stringify(model.attributes));
     }
