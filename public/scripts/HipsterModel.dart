@@ -20,23 +20,33 @@ class HipsterModel implements Hashable {
 
   operator [](attr) => attributes[attr];
 
+  get id() => attributes['id'];
+
   get url() => isSaved() ?
-      urlRoot : "$urlRoot/${attributes['id']}";
+      urlRoot : "$urlRoot/$id";
 
   get urlRoot() => (collection == null) ?
     "" : collection.url;
 
-  bool isSaved() => attributes['id'] == null;
+  bool isSaved() => id == null;
 
+  // TODO: update
   Future<HipsterModel> save() {
     Completer completer = new Completer();
 
-    HipsterSync.
-      call('post', this).
+    Future after_call = HipsterSync.call('create', this);
+
+    after_call.
       then((attrs) {
         this.attributes = attrs;
         on.load.dispatch(new ModelEvent('save', this));
         completer.complete(this);
+      });
+
+    after_call.
+      handleException((e) {
+        completer.completeException(e);
+        return true;
       });
 
     return completer.future;

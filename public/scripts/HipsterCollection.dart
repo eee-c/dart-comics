@@ -37,7 +37,7 @@ class HipsterCollection implements Collection {
 
   fetch() {
     HipsterSync.
-      call('get', this).
+      call('read', this).
       then((list) {
         list.forEach((attrs) {
           var new_model = modelMaker(attrs);
@@ -50,10 +50,17 @@ class HipsterCollection implements Collection {
   }
 
   create(attrs) {
-    _buildModel(attrs).
-      save().
+    Future after_save = _buildModel(attrs).save();
+
+    after_save.
       then((saved_model) {
         this.add(saved_model);
+      });
+
+    after_save.
+      handleException(bool (e) {
+        print("Exception handled: ${e}");
+        return true;
       });
   }
 
