@@ -24,13 +24,11 @@ class AddComic extends HipsterView {
   }
 
   _toggle_form(event) {
-    if (form_view == null) {
-      form_view = new AddComicForm(collection: collection);
-      form_view.render();
-    }
-    else {
+    if (form_view != null) {
       form_view.remove();
-      form_view = null;
     }
+
+    form_view = new AddComicForm(collection: collection);
+    form_view.render();
   }
 }
