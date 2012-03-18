@@ -8,7 +8,15 @@ class AddComic extends HipsterView {
   var form_view;
 
   AddComic([collection, model, el]):
-    super(collection:collection, model:model, el:el);
+    super(collection:collection, model:model, el:el) {
+    this.el.style.borderRadius = '5px';
+    this.el.style.borderWidth = '3px';
+    this.el.style.borderColor = '#999';
+    this.el.style.borderStyle = 'solid';
+    this.el.style.cursor = 'pointer';
+    this.el.style.display = 'inline';
+    this.el.style.padding = '3px';
+  }
 
   void post_initialize() {
     print("sub initialize");
