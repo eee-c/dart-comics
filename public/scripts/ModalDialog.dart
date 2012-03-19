@@ -3,7 +3,7 @@
 class ModalDialog implements Element {
   Element el, bg;
 
-  factory ModalDialog() => new ModalDialog.tag('div');
+  ModalDialog(): this.tag('div');
 
   ModalDialog.tag(String tag) {
     el = new Element.tag(tag);
