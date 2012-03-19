@@ -37,8 +37,10 @@ wsSync(method, model) {
   final completer = new Completer();
 
   String message = "$method: ${model.url}";
-  if (method == 'delete') message = "$method: ${model.id}";
-  if (method == 'create') message = "$method: ${JSON.stringify(model.attributes)}";
+  if (method == 'delete')
+    message = "$method: ${model.id}";
+  if (method == 'create')
+    message = "$method: ${JSON.stringify(model.attributes)}";
 
   print("sending: $message");
   ws.send(message);
