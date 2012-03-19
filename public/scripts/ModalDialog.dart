@@ -3,18 +3,31 @@
 class ModalDialog implements Element {
   Element el, bg;
 
-  ModalDialog.html(String html) {
-    el = new Element.tag('div');
-    el.innerHTML = html;
-  }
+  factory ModalDialog() => new ModalDialog.tag('div');
 
   ModalDialog.tag(String tag) {
     el = new Element.tag(tag);
   }
 
+  ModalDialog.html(String html) {
+    el = new Element.tag('div');
+    el.innerHTML = html;
+  }
+
+  void set innerHTML(String html) {
+    el.innerHTML = html;
+
+    if (html == null || html == '')
+      remove();
+    else
+      show();
+  }
+
+  Node remove() => hide();
+
   Node hide() {
-    el.remove();
     bg.remove();
+    return el.remove();
   }
 
   void show() {

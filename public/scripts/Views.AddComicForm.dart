@@ -5,13 +5,12 @@
 #import('https://raw.github.com/eee-c/hipster-mvc/master/HipsterView.dart');
 
 class AddComicForm extends HipsterView {
-  Element modal;
-
   AddComicForm([collection, model, el]):
     super(collection:collection, model:model, el:el);
 
+
   post_initialize() {
-    el = modal = new ModalDialog.html(template());
+    el = new ModalDialog();
     _attachUiHandlers();
   }
 
@@ -27,9 +26,9 @@ class AddComicForm extends HipsterView {
     });
   }
 
-  void render() { modal.show(); }
+  void render() { el.innerHTML = template(); }
 
-  void remove() { modal.hide(); }
+  void remove() { el.innerHTML = ''; }
 
   template() {
     return """
