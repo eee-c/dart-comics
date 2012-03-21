@@ -63,7 +63,7 @@ class ModalDialog implements Element {
 
       el.rect.then((dialog) {
         el.style.top = '80px';
-        int offset_left = document.offset.width/2 - dialog.offset.width/2;
+        int offset_left = (document.offset.width/2 - dialog.offset.width/2).toInt();
         el.style.left = "${offset_left}px";
 
         el.style.transition = 'opacity 1s ease-in-out';
@@ -75,4 +75,5 @@ class ModalDialog implements Element {
   get on() => el.on;
   get parent() => el.parent;
   ElementList queryAll(String selectors) => el.queryAll(selectors);
+  Element query(String selectors) => el.query(selectors);
 }
