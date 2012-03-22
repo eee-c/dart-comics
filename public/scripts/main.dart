@@ -29,11 +29,27 @@ localSync(method, model) {
 
   print("[local_sync] $method");
 
-  if (method == 'get') {
+  if (method == 'read') {
     var json =  window.localStorage.getItem(model.url),
         data = (json == null) ? {} : JSON.parse(json);
 
     completer.complete(data.getValues());
+  }
+
+  if (method == 'create') {
+    var collection = model.collection,
+        attrs = model.attributes;
+
+    if (attrs['id'] == null) {
+      attrs['id'] = "${attrs['title']}:::${attrs['author']}".hashCode();
+    }
+    print(attrs);
+
+    collection.create(attrs);
+
+    var id = attrs['id'];
+    collection.data[id] = attrs;
+    window.localStorage.setItem(collection.url, JSON.stringify(collection.data));
   }
 
   return completer.future;
