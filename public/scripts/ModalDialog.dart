@@ -26,14 +26,46 @@ class ModalDialog implements Element {
   Node remove() => hide();
 
   Node hide() {
+    _removeHandlers();
     bg.remove();
     return el.remove();
   }
 
   void show() {
+    _attachHanders();
+    _drawBackground();
+    _drawElement();
+  }
+
+  get on() => el.on;
+  get parent() => el.parent;
+  ElementList queryAll(String selectors) => el.queryAll(selectors);
+  Element query(String selectors) => el.query(selectors);
+
+  _attachHanders() {
+    window.
+      on.
+      keyDown.
+      add((event) {
+        if (event.keyCode == 27) remove();
+      });
+
+    window.
+      on.
+      resize.
+      add(_drawBackground);
+  }
+
+  _removeHandlers() {
+    window.
+      on.
+      resize.
+      remove(_drawBackground);
+  }
+
+  _drawBackground([_]) {
     bg = new Element.tag('div');
     document.body.nodes.add(bg);
-    document.body.nodes.add(el);
 
     window.document.rect.then((document) {
       bg.style.position = 'absolute';
@@ -47,6 +79,10 @@ class ModalDialog implements Element {
       bg.style.opacity = '0.8';
       bg.style.zIndex = '1000';
     });
+  }
+
+  _drawElement([_]) {
+    document.body.nodes.add(el);
 
     window.document.rect.then((document) {
       el.style.opacity = '0';
@@ -71,9 +107,4 @@ class ModalDialog implements Element {
       });
     });
   }
-
-  get on() => el.on;
-  get parent() => el.parent;
-  ElementList queryAll(String selectors) => el.queryAll(selectors);
-  Element query(String selectors) => el.query(selectors);
 }
