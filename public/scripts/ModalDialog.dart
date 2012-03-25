@@ -2,11 +2,13 @@
 #import("dart:html");
 class ModalDialog implements Element {
   Element el, bg;
+  var resizeHandler;
 
   ModalDialog(): this.tag('div');
 
   ModalDialog.tag(String tag) {
     el = new Element.tag(tag);
+    resizeHandler = _drawBackground;
   }
 
   ModalDialog.html(String html) {
@@ -53,17 +55,20 @@ class ModalDialog implements Element {
     window.
       on.
       resize.
-      add(_drawBackground);
+      add(resizeHandler);
   }
 
   _removeHandlers() {
     window.
       on.
       resize.
-      remove(_drawBackground);
+      remove(resizeHandler);
   }
 
   _drawBackground([_]) {
+    print('_drawBackground');
+    if (bg != null) return;
+
     bg = new Element.tag('div');
     document.body.nodes.add(bg);
 
