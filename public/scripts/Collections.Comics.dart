@@ -6,5 +6,5 @@
 
 class Comics extends HipsterCollection {
   get url() => '/comics';
-  modelMaker(attrs) => new ComicBook(attrs);
+  modelMaker(_) => new ComicBook();
 }

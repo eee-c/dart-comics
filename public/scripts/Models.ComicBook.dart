@@ -3,5 +3,6 @@
 #import('https://raw.github.com/eee-c/hipster-mvc/master/HipsterModel.dart');
 
 class ComicBook extends HipsterModel {
-  ComicBook(attributes) : super(attributes);
+  ComicBook(): super();
+  ComicBook.byNeilGaiman(): super({author: 'Neil Gaiman'});
 }
