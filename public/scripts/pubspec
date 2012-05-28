@@ -1,0 +1,3 @@
+dependencies:
+  hipster-mvc:
+    git: git://github.com/eee-c/hipster-mvc.git
