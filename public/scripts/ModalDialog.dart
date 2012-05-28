@@ -72,7 +72,7 @@ class ModalDialog implements Element {
     bg = new Element.tag('div');
     document.body.nodes.add(bg);
 
-    window.document.rect.then((document) {
+    window.document.documentElement.rect.then((document) {
       bg.style.position = 'absolute';
       bg.style.top = '0px';
       bg.style.left = '0px';
@@ -89,7 +89,7 @@ class ModalDialog implements Element {
   _drawElement([_]) {
     document.body.nodes.add(el);
 
-    window.document.rect.then((document) {
+    window.document.documentElement.rect.then((document) {
       el.style.opacity = '0';
 
       el.style.position = 'absolute';
