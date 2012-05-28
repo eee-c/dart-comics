@@ -2,6 +2,9 @@
 
 #import('https://raw.github.com/eee-c/hipster-mvc/master/HipsterView.dart');
 
+#import('dart:html');
+#source('ComicBook.dart');
+
 class Comics extends HipsterView {
   Comics([collection, el]):
     super(collection:collection, el:el);
@@ -29,7 +32,7 @@ class Comics extends HipsterView {
     var html = '';
     list.forEach((comic) {
       html = html.concat(
-        _singleComicBookTemplate(comic)
+        (new ComicBook(comic)).root.outerHTML
       );
     });
     return html;
