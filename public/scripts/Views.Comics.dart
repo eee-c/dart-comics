@@ -1,6 +1,6 @@
 #library('Collection View for My Comic Book Collection');
 
-#import('https://raw.github.com/eee-c/hipster-mvc/master/HipsterView.dart');
+#import('package:hipster-mvc/HipsterView.dart');
 
 #import('dart:html');
 #source('ComicBook.dart');

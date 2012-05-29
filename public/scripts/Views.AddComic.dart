@@ -1,6 +1,6 @@
 #library('Simple view to toggle new comic form view');
 
-#import('https://raw.github.com/eee-c/hipster-mvc/master/HipsterView.dart');
+#import('package:hipster-mvc/HipsterView.dart');
 
 #import('Views.AddComicForm.dart');
 

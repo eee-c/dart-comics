@@ -1,6 +1,6 @@
 #library('Model class describing a comic book');
 
-#import('https://raw.github.com/eee-c/hipster-mvc/master/HipsterModel.dart');
+#import('package:hipster-mvc/HipsterModel.dart');
 
 class ComicBook extends HipsterModel {
   ComicBook(): super();
