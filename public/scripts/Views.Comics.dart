@@ -28,7 +28,9 @@ class Comics extends HipsterView {
 
     var html = '';
     list.forEach((comic) {
-      html += _singleComicBookTemplate(comic);
+      html = html.concat(
+        _singleComicBookTemplate(comic)
+      );
     });
     return html;
   }
