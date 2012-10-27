@@ -7,7 +7,7 @@
 class AddComic extends HipsterView {
   var form_view;
 
-  AddComic([collection, model, el]):
+  AddComic({collection, model, el}):
     super(collection:collection, model:model, el:el) {
     this.el.style.borderRadius = '5px';
     this.el.style.borderWidth = '3px';

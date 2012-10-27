@@ -3,7 +3,7 @@
 #import('package:hipster-mvc/HipsterView.dart');
 
 class Comics extends HipsterView {
-  Comics([collection, el]):
+  Comics({collection, el}):
     super(collection:collection, el:el);
 
   post_initialize() {

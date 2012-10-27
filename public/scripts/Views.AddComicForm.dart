@@ -5,7 +5,7 @@
 #import('package:hipster-mvc/HipsterView.dart');
 
 class AddComicForm extends HipsterView {
-  AddComicForm([collection, model, el]):
+  AddComicForm({collection, model, el}):
     super(collection:collection, model:model, el:el);
 
 
@@ -83,8 +83,8 @@ Dead Tree</label></p>
         'author':author.value
       });
     }
-    catch (Exception e) {
-      print("Exception handled: ${e.type}");
+    catch (e) {
+      print("[Views.AddComicForm] ${e.toString()}");
     }
   }
 }
