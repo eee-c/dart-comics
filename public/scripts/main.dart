@@ -5,7 +5,7 @@
 #import('dart:html');
 #import('dart:json');
 
-#import('package:hipster-mvc/HipsterSync.dart');
+#import('package:hipster_mvc/lib/hipster_sync.dart');
 
 main() {
   // HipsterSync.sync = localSync;

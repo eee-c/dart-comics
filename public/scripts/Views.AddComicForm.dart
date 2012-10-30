@@ -2,7 +2,7 @@
 
 #import('dart:html');
 #import('ModalDialog.dart');
-#import('package:hipster-mvc/HipsterView.dart');
+#import('package:hipster_mvc/lib/hipster_view.dart');
 
 class AddComicForm extends HipsterView {
   AddComicForm({collection, model, el}):

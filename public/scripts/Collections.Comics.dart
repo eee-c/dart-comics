@@ -1,6 +1,6 @@
 #library('Collection class to describe my comic book collection');
 
-#import('package:hipster-mvc/HipsterCollection.dart');
+#import('package:hipster_mvc/lib/hipster_collection.dart');
 
 #import('Models.ComicBook.dart');
 
