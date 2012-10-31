@@ -39,8 +39,8 @@ class ModalDialog implements Element {
     _drawElement();
   }
 
-  get on() => el.on;
-  get parent() => el.parent;
+  get on => el.on;
+  get parent => el.parent;
   ElementList queryAll(String selectors) => el.queryAll(selectors);
   Element query(String selectors) => el.query(selectors);
 
