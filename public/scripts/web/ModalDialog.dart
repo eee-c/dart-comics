@@ -1,6 +1,6 @@
 #library("Modal Dialog");
 #import("dart:html");
-class ModalDialog implements Element {
+class ModalDialog {
   Element el, bg;
   var resizeHandler;
 
@@ -25,12 +25,12 @@ class ModalDialog implements Element {
       show();
   }
 
-  Node remove() => hide();
+  void remove() => hide();
 
-  Node hide() {
+  void hide() {
     _removeHandlers();
     bg.remove();
-    return el.remove();
+    el.remove();
   }
 
   void show() {
@@ -41,7 +41,7 @@ class ModalDialog implements Element {
 
   get on => el.on;
   get parent => el.parent;
-  ElementList queryAll(String selectors) => el.queryAll(selectors);
+  List<Element> queryAll(String selectors) => el.queryAll(selectors);
   Element query(String selectors) => el.query(selectors);
 
   _attachHanders() {
@@ -65,7 +65,7 @@ class ModalDialog implements Element {
       remove(resizeHandler);
   }
 
-  _drawBackground([_]) {
+  _drawBackground([event]) {
     print('_drawBackground');
     if (bg != null) return;
 
@@ -86,7 +86,7 @@ class ModalDialog implements Element {
     });
   }
 
-  _drawElement([_]) {
+  _drawElement([event]) {
     document.body.nodes.add(el);
 
     window.document.documentElement.rect.then((document) {
