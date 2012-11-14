@@ -5,9 +5,17 @@ main() {
   HttpServer app = new HttpServer();
 
   app.addRequestHandler(
-    (req) => req.method == 'GET' && req.path == '/',
+    (req) {
+      if (req.method != 'GET') return false;
+
+      String path = publicPath(req.path);
+      if (path == null) return false;
+
+      req.session().data = {'path': path};
+      return true;
+    },
     (req, res) {
-      var file = new File('public/index.html');
+      var file = new File(req.session().data['path']);
       var stream = file.openInputStream();
       stream.pipe(res.outputStream);
     }
@@ -31,3 +39,10 @@ main() {
 
   app.listen('127.0.0.1', 8000);
 }
+
+String publicPath(String path) {
+  if (pathExists("public$path")) return "public$path";
+  if (pathExists("public$path/index.html")) return "public$path/index.html";
+}
+
+boolean pathExists(String path) => new File(path).existsSync();
