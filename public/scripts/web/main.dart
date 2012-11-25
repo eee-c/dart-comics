@@ -1,11 +1,11 @@
-#import('Collections.Comics.dart', prefix: 'Collections');
-#import('Views.Comics.dart', prefix: 'Views');
-#import('Views.AddComic.dart', prefix: 'Views');
+import 'Collections.Comics.dart' as Collections;
+import 'Views.Comics.dart' as Views;
+import 'Views.AddComic.dart' as Views;
 
-#import('dart:html');
-#import('dart:json');
+import 'dart:html';
+import 'dart:json';
 
-#import('package:hipster_mvc/hipster_sync.dart');
+import 'package:hipster_mvc/hipster_sync.dart';
 
 main() {
   // HipsterSync.sync = localSync;
