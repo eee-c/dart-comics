@@ -61,6 +61,20 @@ main() {
     }
   );
 
+  app.addRequestHandler(
+    (req) => req.method == 'DELETE' &&
+             new RegExp(r"^/comics/\d").hasMatch(req.path),
+    (req, res) {
+      var r = new RegExp(r"^/comics/(\d+)");
+      var id = r.firstMatch(req.path)[1];
+
+      db.remove(int.parse(id));
+
+      res.outputStream.writeString('{}');
+      res.outputStream.close();
+    }
+  );
+
 
   app.listen('127.0.0.1', 8000);
 }
