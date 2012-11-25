@@ -1,7 +1,11 @@
-#import('dart:io');
-#import('dart:json');
+import 'dart:io';
+import 'dart:json';
+
+import 'package:dart_dirty/dirty.dart';
 
 main() {
+  Dirty db = new Dirty('dart_comics.db');
+
   HttpServer app = new HttpServer();
 
   app.addRequestHandler(
@@ -22,17 +26,38 @@ main() {
   );
 
   app.addRequestHandler(
-    (req) => req.method == 'GET' && req.path == '/json',
+    (req) => req.method == 'GET' && req.path == '/comics',
     (req, res) {
-      var data = {
-        'title': 'Watchmen',
-        'author': 'Alan Moore'
+      res.headers.contentType = 'application/json';
+      res.outputStream.writeString(JSON.stringify(db.values));
+      res.outputStream.close();
+    }
+  );
+
+  app.addRequestHandler(
+    (req) => req.method == 'POST' && req.path == '/comics',
+    (req, res) {
+      var input = new StringInputStream(req.inputStream);
+      var post_data = '';
+
+      input.onLine = () {
+        var line = input.readLine();
+        post_data = post_data.concat(line);
       };
 
-      res.contentLength = JSON.stringify(data).length;
-      res.headers.contentType = 'application/json';
-      res.outputStream.writeString(JSON.stringify(data));
-      res.outputStream.close();
+      input.onClosed = () {
+        var graphic_novel = JSON.parse(post_data);
+        graphic_novel['id'] = db.length + 1;
+
+        db[graphic_novel['id']] = graphic_novel;
+
+        res.statusCode = 201;
+        res.headers.contentType = 'application/json';
+
+        res.outputStream.writeString(JSON.stringify(graphic_novel));
+        res.outputStream.close();
+      };
+
     }
   );
 

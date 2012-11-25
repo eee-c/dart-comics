@@ -5,3 +5,4 @@ node_modules
 .rvmrc
 public/**/*.dart.js
 .project
+packages
