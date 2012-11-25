@@ -1,3 +1,4 @@
 name: scripts
 dependencies:
-  hipster_mvc: any
+  hipster_mvc:
+    git: git://github.com/eee-c/hipster-mvc.git
