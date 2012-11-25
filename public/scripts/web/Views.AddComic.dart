@@ -1,8 +1,8 @@
-#library('Simple view to toggle new comic form view');
+library add_comic_view;
 
-#import('package:hipster_mvc/hipster_view.dart');
+import 'package:hipster_mvc/hipster_view.dart';
 
-#import('Views.AddComicForm.dart');
+import 'Views.AddComicForm.dart';
 
 class AddComic extends HipsterView {
   var form_view;

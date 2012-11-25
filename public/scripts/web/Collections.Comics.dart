@@ -1,8 +1,8 @@
-#library('Collection class to describe my comic book collection');
+library comics_collection;
 
-#import('package:hipster_mvc/hipster_collection.dart');
+import 'package:hipster_mvc/hipster_collection.dart' ;
 
-#import('Models.ComicBook.dart');
+import 'Models.ComicBook.dart' ;
 
 class Comics extends HipsterCollection {
   get url => '/comics';

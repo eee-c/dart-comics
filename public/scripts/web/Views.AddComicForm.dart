@@ -1,8 +1,8 @@
-#library('Form view to add new comic book to my sweet collection.');
+library add_comic_form_view;
 
-#import('dart:html');
-#import('ModalDialog.dart');
-#import('package:hipster_mvc/hipster_view.dart');
+import 'dart:html';
+import 'ModalDialog.dart';
+import 'package:hipster_mvc/hipster_view.dart';
 
 class AddComicForm extends HipsterView {
   AddComicForm({collection, model, el}):

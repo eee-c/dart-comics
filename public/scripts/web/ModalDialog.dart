@@ -1,5 +1,7 @@
-#library("Modal Dialog");
-#import("dart:html");
+library modal_dialog;
+
+import "dart:html";
+
 class ModalDialog {
   Element el, bg;
   var resizeHandler;
@@ -72,13 +74,15 @@ class ModalDialog {
     bg = new Element.tag('div');
     document.body.nodes.add(bg);
 
-    window.document.documentElement.rect.then((document) {
+    window.requestLayoutFrame(() {
+      var doc = window.document.documentElement;
+
       bg.style.position = 'absolute';
       bg.style.top = '0px';
       bg.style.left = '0px';
 
-      bg.style.width = "${document.offset.width}px";
-      bg.style.height = "${document.client.height}px";
+      bg.style.width = "${doc.offsetWidth}px";
+      bg.style.height = "${doc.clientHeight}px";
 
       bg.style.backgroundColor = 'black';
       bg.style.opacity = '0.8';
@@ -89,7 +93,9 @@ class ModalDialog {
   _drawElement([event]) {
     document.body.nodes.add(el);
 
-    window.document.documentElement.rect.then((document) {
+    window.requestLayoutFrame(() {
+      var doc = window.document.documentElement;
+
       el.style.opacity = '0';
 
       el.style.position = 'absolute';
@@ -102,14 +108,12 @@ class ModalDialog {
 
       el.style.zIndex = '1001';
 
-      el.rect.then((dialog) {
-        el.style.top = '80px';
-        int offset_left = (document.offset.width/2 - dialog.offset.width/2).toInt();
-        el.style.left = "${offset_left}px";
+      el.style.top = '80px';
+      int offset_left = (doc.offsetWidth/2 - el.offsetWidth/2).toInt();
+      el.style.left = "${offset_left}px";
 
-        el.style.transition = 'opacity 1s ease-in-out';
-        el.style.opacity = '1';
-      });
+      el.style.transition = 'opacity 1s ease-in-out';
+      el.style.opacity = '1';
     });
   }
 }
