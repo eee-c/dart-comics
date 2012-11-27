@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'dart:json';
 
-import 'package:dart_dirty/dirty.dart';
+import 'package:dirty/dirty.dart';
 
 main() {
   Dirty db = new Dirty('dart_comics.db');
