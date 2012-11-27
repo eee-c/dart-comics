@@ -1,4 +1,3 @@
 name: Dart Comics
 dependencies:
-  dirty:
-    git: git://github.com/eee-c/dart-dirty.git
+  dirty: any

@@ -1,1 +1,1 @@
-{"packages":{"dirty":{"version":"0.0.1","source":"git","description":{"url":"git://github.com/eee-c/dart-dirty.git","ref":null,"resolved-ref":"22a46fe70b071f488d93cfc42dcddb4b56763495"}},"unittest":{"version":"0.0.0-r.15130","source":"sdk","description":"unittest"}}}
+{"packages":{"dirty":{"version":"0.0.1","source":"hosted","description":"dirty"},"unittest":{"version":"0.0.0-r.15130","source":"sdk","description":"unittest"}}}
