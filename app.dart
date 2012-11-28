@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:json';
 
 import 'package:dirty/dirty.dart';
+import 'package:uuid/uuid.dart';
 
 main() {
   HttpServer app = new HttpServer();
@@ -20,7 +21,7 @@ main() {
 
   app.addRequestHandler(
     (req) => req.method == 'DELETE' &&
-             new RegExp(r"^/comics/\d").hasMatch(req.path),
+             new RegExp(r"^/comics/[-\w\d]+$").hasMatch(req.path),
     Comics.delete
   );
 
@@ -28,6 +29,7 @@ main() {
 }
 
 class Comics {
+  static Uuid uuid = new Uuid();
   static Dirty db = new Dirty('dart_comics.db');
 
   static index(req, res) {
@@ -47,7 +49,7 @@ class Comics {
 
     input.onClosed = () {
       var graphic_novel = JSON.parse(post_data);
-      graphic_novel['id'] = db.length + 1;
+      graphic_novel['id'] = uuid.v1();
 
       db[graphic_novel['id']] = graphic_novel;
 
@@ -60,10 +62,10 @@ class Comics {
   }
 
   static delete(req, res) {
-    var r = new RegExp(r"^/comics/(\d+)");
+    var r = new RegExp(r"^/comics/([-\w\d]+)");
     var id = r.firstMatch(req.path)[1];
 
-    db.remove(int.parse(id));
+    db.remove(id);
 
     res.outputStream.writeString('{}');
     res.outputStream.close();
