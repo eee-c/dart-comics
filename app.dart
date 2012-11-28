@@ -92,5 +92,5 @@ class Public {
     if (pathExists("public$path/index.html")) return "public$path/index.html";
   }
 
-  static boolean pathExists(String path) => new File(path).existsSync();
+  static bool pathExists(String path) => new File(path).existsSync();
 }
