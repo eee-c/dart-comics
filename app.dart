@@ -25,6 +25,7 @@ main() {
     Comics.delete
   );
 
+  print("Starting on ${Platform.environment['PORT']}");
   var port = Platform.environment['PORT'] == null ? 8000 : int.parse(Platform.environment['PORT']);
   app.listen('0.0.0.0', port);
   print('Server started on port: ${port}');
