@@ -5,4 +5,3 @@ _site
 public/**/*.dart.js
 .project
 packages
-asdf
