@@ -1,23 +1,19 @@
 = Dart Comics
 
-A simple Dart front-end for organizing comic books across formats. The backend is a simple express.js / node-dirty application.
+A simple Dart front-end for organizing comic books across formats. The backend is a simple Dart web server.
 
 == Install
 
 === Prerequisites
 
-* Node.js (0.6+) and npm
 * Dart binaries
 
-=== Node.js Backend
+=== Dart Backend
 
-Node.js powers the simple REST-like backend. Node is found at http://nodejs.org/#download.
-
-A number of node packages are used, the primary of which are http:http://expressjs.com/[express.js] (provides a nice DSL for writing REST-like applications) and http:https://github.com/felixge/node-dirty[node-dirty] (a simple nosql datastore). Installation of these packages is accomplished with http:http://npmjs.org/[npm] (the node package manager).  The following two commands will install npm, express.js, node-dirty and everything else needed:
+Dart powers the simple REST-like backend. The web server relies on Dart packages which can be installed with:
 
 ----
-curl http://npmjs.org/install.sh | sh
-npm install
+pub install
 ----
 
 === Dart Frontend
@@ -28,16 +24,16 @@ Grab the executable appropriate for you platform from the http:from http://gsdvi
 
 == Running
 
-To compile the Dart into Javascript, use `frogc` from the Dart binaries:
+To compile the Dart into Javascript, use `dart2js` from the Dart binaries:
 
 ----
-$ frogc public/scripts/*.dart
+$ dart2js -opublic/scripts/main.dart.js public/scripts/main.dart
 ----
 
 The application will automatically fallback to Javascript for browsers that do not support Dart.
 
-To start the backend server, execute the node application:
+To start the backend server, execute the dart application:
 
 ----
-$ node app.js
+$ dart app.dart
 ----
