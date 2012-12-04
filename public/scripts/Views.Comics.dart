@@ -1,9 +1,9 @@
-#library('Collection View for My Comic Book Collection');
+library views_comics;
 
-#import('HipsterView.dart');
+import 'HipsterView.dart';
 
 class Comics extends HipsterView {
-  Comics([collection, model, el]):
+  Comics({collection, model, el}):
     super(collection:collection, model:model, el:el);
 
   post_initialize() {
@@ -28,7 +28,7 @@ class Comics extends HipsterView {
 
     var html = '';
     list.forEach((comic) {
-      html += _singleComicBookTemplate(comic);
+      html = html.concat(_singleComicBookTemplate(comic));
     });
     return html;
   }

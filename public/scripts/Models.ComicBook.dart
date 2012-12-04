@@ -1,8 +1,8 @@
-#library('Model class describing a comic book');
+library models_comic_book;
 
-#import('HipsterModel.dart');
+import 'HipsterModel.dart';
 
 class ComicBook extends HipsterModel {
   ComicBook(attributes) : super(attributes);
-  get urlRoot() { return "/comics"; }
+  get urlRoot { return "/comics"; }
 }

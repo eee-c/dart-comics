@@ -1,10 +1,9 @@
-#library('Base class for Collections');
+library hipster_collection;
 
-#import('dart:html');
-#import('dart:htmlimpl');
-#import('dart:json');
+import 'dart:html';
+import 'dart:json';
 
-#import('HipsterModel.dart');
+import 'HipsterModel.dart';
 
 class HipsterCollection implements Collection<HipsterModel> {
   var on;
@@ -15,15 +14,15 @@ class HipsterCollection implements Collection<HipsterModel> {
     models = <HipsterModel>[];
   }
 
-  abstract HipsterModel modelMaker(attrs);
-  abstract String get url();
+  HipsterModel modelMaker(attrs);
+  String get url;
 
   // Be List-like
   void forEach(fn) {
     models.forEach(fn);
   }
 
-  int get length() {
+  int get length {
     return models.length;
   }
 
@@ -37,7 +36,7 @@ class HipsterCollection implements Collection<HipsterModel> {
   }
 
   fetch() {
-    var req = new XMLHttpRequest();
+    var req = new HttpRequest();
 
     req.on.load.add(_handleOnLoad);
     req.open('get', url, true);
@@ -71,13 +70,13 @@ class HipsterCollection implements Collection<HipsterModel> {
 
 class CollectionEvent implements Event {
   var _type, collection, _model;
-  CollectionEvent(this._type, this.collection, [model]) {
+  CollectionEvent(this._type, this.collection, {model}) {
     _model = model;
   }
-  String get type() {
+  String get type {
     return _type;
   }
-  HipsterModel get model() {
+  HipsterModel get model {
     return _model;
   }
 }
@@ -90,8 +89,8 @@ class CollectionEvents implements Events {
     add_to_list = new CollectionEventList();
   }
 
-  get load() { return load_list; }
-  get add() { return add_to_list; }
+  get load { return load_list; }
+  get add { return add_to_list; }
 }
 
 class CollectionEventList implements EventListenerList {
@@ -101,7 +100,7 @@ class CollectionEventList implements EventListenerList {
     listeners = [];
   }
 
-  add(fn) {
+  add(fn, [bool useCapture = false]) {
     listeners.add(fn);
   }
 

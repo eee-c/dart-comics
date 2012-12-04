@@ -1,8 +1,7 @@
-#library('Base class for Models');
+library hipster_model;
 
-#import('dart:html');
-#import('dart:htmlimpl');
-#import('dart:json');
+import 'dart:html';
+import 'dart:json';
 
 class HipsterModel {
   var attributes, on;
@@ -15,10 +14,10 @@ class HipsterModel {
     return attributes[attr];
   }
 
-  get urlRoot() { return ""; }
+  get urlRoot { return ""; }
 
-  save([callback]) {
-    var req = new XMLHttpRequest()
+  save({callback}) {
+    var req = new HttpRequest()
       , json = JSON.stringify(attributes);
 
     req.on.load.add((event) {
@@ -32,8 +31,8 @@ class HipsterModel {
     req.send(json);
   }
 
-  delete([callback]) {
-    var req = new XMLHttpRequest();
+  delete({callback}) {
+    var req = new HttpRequest();
 
     req.on.load.add((event) {
       print("[delete] success");
@@ -58,9 +57,9 @@ class ModelEvents implements Events {
     delete_list = new ModelEventList();
   }
 
-  get load() { return load_list; }
-  get save() { return save_list; }
-  get delete() { return delete_list; }
+  get load { return load_list; }
+  get save { return save_list; }
+  get delete { return delete_list; }
 }
 
 class ModelEventList implements EventListenerList {
@@ -70,7 +69,7 @@ class ModelEventList implements EventListenerList {
     listeners = [];
   }
 
-  add(fn) {
+  add(fn, [bool useCapture = false]) {
     listeners.add(fn);
   }
 

@@ -1,13 +1,12 @@
-#library('Base class for Views');
+library hipster_view;
 
-#import('dart:html');
-#import('dart:htmlimpl');
-#import('dart:json');
+import 'dart:html';
+import 'dart:json';
 
 class HipsterView {
   var model, el, collection;
 
-  HipsterView([this.model, this.el, this.collection]) {
+  HipsterView({this.model, this.el, this.collection}) {
     if (this.el is String) this.el = document.query(this.el);
     print(this.el);
     this.post_initialize();
@@ -36,7 +35,7 @@ class HipsterView {
     });
   }
 
-  noSuchMethod(name, args) {
-    print("[noSuchMethod] $name");
-  }
+  // noSuchMethod(name, args) {
+  //   print("[noSuchMethod] $name");
+  // }
 }
