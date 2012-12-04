@@ -4,7 +4,7 @@
   <title>Dart Comics</title>
   <link rel="stylesheet" href="/stylesheets/style.css">
 
-  <script src="/scripts/comics.dart" type="application/dart"></script>
+  <script src="/scripts/comic_put.dart" type="application/dart"></script>
   <script>
 if (navigator.webkitStartDart) {
   navigator.webkitStartDart()
@@ -36,8 +36,43 @@ function loadJsEquivalent(script) {
   <h1>Dart Comics</h1>
   <p>Welcome to Dart Comics</p>
 
-  <ul id="comics-list"></ul>
+<p>Add a sweet comic to the collection:</p>
+<form action="comics"  id="new-comic-form">
+  <p>
+    <label>
+      Title
+      <br/>
+      <input type="text"  name="title"  id="comic-title"/>
+    </label>
+  </p>
 
-  <p id="add-comic"><a href="new.html">Add a sweet comic to the collection</a>.</p>
+  <p>
+    <label>
+      Author
+      <br/>
+      <input type="text" name="author" id="comic-author"/>
+    </label>
+  </p>
+
+  <p>
+    Format
+    <p>
+      <label>
+        <input type="checkbox" name="format" value="tablet" id="comic-table"/>
+        Tablet
+      </label>
+    </p>
+    <p>
+      <label>
+        <input type="checkbox" name="format" value="dead-tree" id="comic-dead-tree"/>
+        Dead Tree
+      </label>
+    </p>
+
+  <p>
+    <input type="submit" value="Bazinga!"/>
+  </p>
+</form>
+<p><a href="index.html">[done]</a></p>
 </body>
 </html>
