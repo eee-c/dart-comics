@@ -1,5 +1,5 @@
-#import('dart:html');
-#import('dart:json');
+import 'dart:html';
+import 'dart:json';
 
 main() {
   load_comics();
@@ -7,7 +7,7 @@ main() {
 
 load_comics() {
   var list_el = document.query('#comics-list')
-    , req = new XMLHttpRequest();
+    , req = new HttpRequest();
 
   req.open('get', '/comics', true);
 
@@ -32,8 +32,8 @@ attach_delete_handlers(parent) {
   });
 }
 
-delete(id, [callback]) {
-  var req = new XMLHttpRequest()
+delete(id, {callback}) {
+  var req = new HttpRequest()
     , default_callback = (){};
 
   req.on.load.add((res) {
@@ -47,7 +47,7 @@ delete(id, [callback]) {
 graphic_novels_template(list) {
   var html = '';
   list.forEach((graphic_novel) {
-    html += graphic_novel_template(graphic_novel);
+    html = html.concat(graphic_novel_template(graphic_novel));
   });
   return html;
 }

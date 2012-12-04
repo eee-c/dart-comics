@@ -1,5 +1,5 @@
-#import('dart:html');
-#import('dart:json');
+import 'dart:html';
+import 'dart:json';
 
 main() {
   var form_el = document.query('#new-comic-form');
@@ -21,7 +21,7 @@ main() {
 
     print(json);
 
-    var req = new XMLHttpRequest();
+    var req = new HttpRequest();
     req.open('post', '/comics', false);
     req.setRequestHeader('Content-type', 'application/json');
     req.send(json);
