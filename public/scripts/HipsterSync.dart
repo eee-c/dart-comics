@@ -30,7 +30,7 @@ class HipsterSync {
 
   // default sync behavior
   static _defaultSync(method, model, [options]) {
-    var req = new XMLHttpRequest();
+    var req = new HttpRequest();
 
     _attachCallbacks(req, options);
 
