@@ -4,11 +4,10 @@ import 'dart:html';
 import 'dart:json';
 
 class HipsterModel {
-  var attributes, on;
+  var attributes;
+  var on = new ModelEvents();
 
-  HipsterModel(this.attributes) {
-    on = new ModelEvents();
-  }
+  HipsterModel(this.attributes);
 
   operator [](attr) {
     return attributes[attr];

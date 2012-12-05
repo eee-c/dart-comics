@@ -6,13 +6,8 @@ import 'dart:json';
 import 'HipsterModel.dart';
 
 class HipsterCollection implements Collection<HipsterModel> {
-  var on;
-  List<HipsterModel> models;
-
-  HipsterCollection() {
-    on = new CollectionEvents();
-    models = <HipsterModel>[];
-  }
+  var on = new CollectionEvents();
+  List<HipsterModel> models = [];
 
   HipsterModel modelMaker(attrs);
   String get url;
