@@ -19,7 +19,7 @@ class HipsterSync {
 
   // static method for HipsterModel and HipsterCollection to invoke -- will
   // forward the call to the appropriate behavior (injected or default)
-  static call(method, model, [options]) {
+  static call(method, model, {options}) {
     if (_injected_sync == null) {
       return _defaultSync(method, model, options:options);
     }
@@ -29,7 +29,7 @@ class HipsterSync {
   }
 
   // default sync behavior
-  static _defaultSync(method, model, [options]) {
+  static _defaultSync(method, model, {options}) {
     var req = new HttpRequest();
 
     _attachCallbacks(req, options);
