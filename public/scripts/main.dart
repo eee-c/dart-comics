@@ -2,10 +2,10 @@ import 'Collections.Comics.dart' as Collections;
 import 'Views.Comics.dart' as Views;
 import 'Views.AddComic.dart' as Views;
 
-#import('dart:html');
-#import('dart:json');
+import 'dart:html';
+import 'dart:json';
 
-#import('HipsterSync.dart');
+import 'HipsterSync.dart';
 
 main() {
   // HipsterSync.sync = localSync;

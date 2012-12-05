@@ -66,8 +66,8 @@ class CollectionEvents implements Events {
   CollectionEventList load_listeners = new CollectionEventList();
   CollectionEventList insert_listeners = new CollectionEventList();
 
-  CollectionEventList get load() => load_listeners;
-  CollectionEventList get insert() => insert_listeners;
+  CollectionEventList get load => load_listeners;
+  CollectionEventList get insert => insert_listeners;
 }
 
 class CollectionEventList implements EventListenerList {
@@ -97,7 +97,7 @@ class CollectionEvent implements Event {
     _model = model;
   }
 
-  String get type() =>_type;
+  String get type =>_type;
 
-  HipsterModel get model() => _model;
+  HipsterModel get model => _model;
 }

@@ -1,7 +1,7 @@
-#library('Sync layer for HipsterMVC');
+library hipster_sync;
 
-#import('dart:html');
-#import('dart:json');
+import 'dart:html';
+import 'dart:json';
 
 class HipsterSync {
   // private class variable to hold an application injected sync behavior
