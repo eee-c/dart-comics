@@ -8,7 +8,7 @@ import 'dart:json';
 import 'HipsterSync.dart';
 
 main() {
-  // HipsterSync.sync = localSync;
+  HipsterSync.sync = localSync;
 
   var my_comics_collection = new Collections.Comics()
     , comics_view = new Views.Comics(
@@ -24,15 +24,35 @@ main() {
   );
 }
 
-localSync(method, model, [options]) {
+localSync(method, model, {options}) {
   print("[local_sync] $method");
 
   if (method == 'get') {
-    var json =  window.localStorage.getItem(model.url),
+    var json =  window.localStorage[model.url],
       data = (json == null) ? {} : JSON.parse(json);
 
+    print(data);
+
     if (options is Map && options.containsKey('onLoad')) {
-      options['onLoad'](data.getValues());
+      options['onLoad'](data.values);
     }
   }
+
+  if (method == 'post') {
+    var collection = model.collection,
+        attrs = model.attributes;
+
+    if (attrs['id'] == null) {
+      attrs['id'] = "${attrs['title']}:::${attrs['author']}".hashCode;
+    }
+    print(attrs);
+
+    //collection.create(attrs);
+    print("here");
+
+    var id = attrs['id'];
+    //collection.data[id] = attrs;
+    window.localStorage[collection.url] = JSON.stringify(attrs);
+  }
+
 }
