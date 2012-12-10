@@ -8,44 +8,49 @@ import 'HipsterSync.dart';
 class HipsterModel implements Hashable {
   Map attributes;
   ModelEvents on = new ModelEvents();
-  Collection collection;
+  HipsterCollection collection;
 
-  HipsterModel(this.attributes);
+  HipsterModel(this.attributes, [this.collection]);
 
   static String hash() {
-    return (new Date.now()).value.hashCode().toRadixString(16);
+    return (new Date.now()).hashCode.toRadixString(16);
   }
 
   operator [](attr) => attributes[attr];
 
-  get url => isSaved() ?
+  get url => isSaved ?
       urlRoot : "$urlRoot/${attributes['id']}";
 
   get urlRoot => (collection == null) ?
     "" : collection.url;
 
-  isSaved() => attributes['id'] == null;
+  bool get isSaved => attributes['id'] == null;
 
-  save({callback}) {
-    HipsterSync.call('post', this, options: {
-      'onLoad': (attrs) {
-        attributes = attrs;
+  Future<HipsterModel> save() {
+    Completer completer = new Completer();
+    HipsterSync.
+      call('post', this).
+      then((attrs) {
+        this.attributes = attrs;
+        on.load.dispatch(new ModelEvent('save', this));
+        completer.complete(this);
+      });
 
-        var event = new ModelEvent('save', this);
-        on.load.dispatch(event);
-        if (callback != null) callback(event);
-      }
-    });
+    return completer.future;
   }
 
-  delete({callback}) {
-    HipsterSync.call('delete', this, options: {
-      'onLoad': (attrs) {
+  Future<HipsterModel> delete() {
+    Completer completer = new Completer();
+
+    HipsterSync.
+      call('delete', this).
+      then((attrs) {
         var event = new ModelEvent('delete', this);
         on.delete.dispatch(event);
-        if (callback != null) callback(event);
-      }
-    });
+        completer.complete(this);
+      });
+
+    return completer.future;
   }
 
 }

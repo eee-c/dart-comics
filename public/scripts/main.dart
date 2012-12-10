@@ -24,7 +24,9 @@ main() {
   );
 }
 
-localSync(method, model, {options}) {
+localSync(method, model) {
+  final completer = new Completer();
+
   print("[local_sync] $method");
 
   if (method == 'get') {
@@ -33,9 +35,7 @@ localSync(method, model, {options}) {
 
     model.data = data;
 
-    if (options is Map && options.containsKey('onLoad')) {
-      options['onLoad'](data.values);
-    }
+    completer.complete(data.values);
   }
 
   if (method == 'post') {
@@ -54,5 +54,10 @@ localSync(method, model, {options}) {
         data = (json != null) ? JSON.parse(json) : {};
     data[id] = attrs;
     window.localStorage[collection.url] = JSON.stringify(data);
+
+    completer.complete(model);
   }
+
+
+  return completer.future;
 }
