@@ -93,7 +93,7 @@ class CollectionEvent implements Event {
   HipsterCollection collection;
   HipsterModel _model;
 
-  CollectionEvent(this._type, this.collection, [model]) {
+  CollectionEvent(this._type, this.collection, {model}) {
     _model = model;
   }
 

@@ -29,9 +29,9 @@ localSync(method, model, {options}) {
 
   if (method == 'get') {
     var json =  window.localStorage[model.url],
-      data = (json == null) ? {} : JSON.parse(json);
+        data = (json != null) ? JSON.parse(json) : {};
 
-    print(data);
+    model.data = data;
 
     if (options is Map && options.containsKey('onLoad')) {
       options['onLoad'](data.values);
@@ -43,16 +43,16 @@ localSync(method, model, {options}) {
         attrs = model.attributes;
 
     if (attrs['id'] == null) {
-      attrs['id'] = "${attrs['title']}:::${attrs['author']}".hashCode;
+      attrs['id'] = "${attrs['title']}:::${attrs['author']}".hashCode.toString();
     }
-    print(attrs);
 
-    //collection.create(attrs);
-    print("here");
+    collection.add(model);
 
     var id = attrs['id'];
-    //collection.data[id] = attrs;
-    window.localStorage[collection.url] = JSON.stringify(attrs);
-  }
 
+    var json = window.localStorage[collection.url],
+        data = (json != null) ? JSON.parse(json) : {};
+    data[id] = attrs;
+    window.localStorage[collection.url] = JSON.stringify(data);
+  }
 }
