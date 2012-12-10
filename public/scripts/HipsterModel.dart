@@ -4,6 +4,7 @@ import 'dart:html';
 import 'dart:json';
 
 import 'HipsterSync.dart';
+import 'HipsterCollection.dart';
 
 class HipsterModel implements Hashable {
   Map attributes;
