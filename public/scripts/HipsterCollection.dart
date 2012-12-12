@@ -20,6 +20,7 @@ class HipsterCollection implements Collection {
   }
 
   int get length => models.length;
+  bool get isEmpty => models.isEmpty;
 
   // Be Backbone like
   operator [](id) {

@@ -48,34 +48,35 @@ main() {
   });
 
   group('HipsterCollection fetch() callback', () {
-    callbackSync(method, model) {
-      final completer = new Completer();
-      callbackDone();
-      completer.complete([]);
-      return completer.future;
-    }
+    test('is invoked', () {
+      HipsterSync.sync = expectAsync2((method, model) {
+        var completer = new Completer();
+        completer.complete([]);
+        return completer.future;
+      });
 
-    asyncTest('is invoked', 1, () {
-      HipsterSync.sync = callbackSync;
       HipsterCollection it = new TestHipsterCollection();
       it.fetch();
     });
 
-    asyncTest('dispatches a load event', 2, () {
+    test('dispatches a load event', () {
+      HipsterSync.sync = protectAsync2((method, model) {
+        return new Future.immediate([]);
+      });
       HipsterCollection it = new TestHipsterCollection();
 
       it.
         on.
         load.
-        add((event) {
-          callbackDone();
-        });
+        add(expectAsync1((event) {
+          expect(event.collection, isNotNull);
+        }));
 
       it.fetch();
     });
   });
 
-  asyncTest('HipsterCollection add dispatch add event', 1, () {
+  test('HipsterCollection add dispatch add event', () {
     noOpSync(method, model, [options]) {}
     HipsterSync.sync = noOpSync;
 
@@ -84,9 +85,9 @@ main() {
     it.
       on.
       insert.
-      add((event) {
-        callbackDone();
-      });
+      add(expectAsync1((event) {
+          expect(event.collection, isNotNull);
+        }));
 
     it.add(new TestHipsterModel());
   });
