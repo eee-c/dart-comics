@@ -7,6 +7,46 @@ import 'package:uuid/uuid.dart';
 main() {
   HttpServer app = new HttpServer();
 
+  WebSocketHandler wsHandler = new WebSocketHandler();
+
+  app.addRequestHandler((req) => req.path == "/ws",
+                         wsHandler.onRequest);
+
+  Dirty db = new Dirty('dart_comics.db');
+  Uuid uuid = new Uuid();
+  wsHandler.onOpen = (conn) {
+    conn.onMessage = (message) {
+      print('Received Message: $message');
+
+      var response;
+      if (new RegExp(r"^read").hasMatch(message)) {
+        response = JSON.stringify(db.values);
+      }
+      else if (new RegExp(r"^create").hasMatch(message)) {
+        var json = new RegExp(r"create: (.+)$").firstMatch(message)[1];
+        var graphic_novel = JSON.parse(json);
+
+        graphic_novel['id'] = uuid.v1();
+
+        db[graphic_novel['id']] = graphic_novel;
+
+        response = JSON.stringify(graphic_novel);
+      }
+      else if (new RegExp(r"^delete").hasMatch(message)) {
+        var r = new RegExp(r"^delete: ([-\w\d]+)");
+        var id = r.firstMatch(message)[1];
+
+        db.remove(id);
+
+        response = JSON.stringify({});
+      }
+      print("replying with: $response");
+      conn.send(response);
+    };
+  };
+
+
+
   app.addRequestHandler(Public.matcher, Public.handler);
 
   app.addRequestHandler(

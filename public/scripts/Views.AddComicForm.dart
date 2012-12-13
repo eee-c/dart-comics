@@ -95,8 +95,8 @@ Dead Tree</label></p>
         'author':author.value
       });
     }
-    catch (Exception e) {
-      print("Exception handled: ${e.type}");
+    catch (e) {
+      print("Exception handled: ${e}");
     }
   }
 }

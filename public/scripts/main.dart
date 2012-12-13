@@ -7,21 +7,56 @@ import 'dart:json';
 
 import 'HipsterSync.dart';
 
-main() {
-  HipsterSync.sync = localSync;
+WebSocket ws;
 
-  var my_comics_collection = new Collections.Comics()
-    , comics_view = new Views.Comics(
-        el:'#comics-list',
+main() {
+  HipsterSync.sync = wsSync;
+  ws = new WebSocket("ws://localhost:8000/ws");
+
+  // After open, initialize the app...
+  ws.
+    on.
+    open.
+    add((event) {
+      var my_comics_collection = new Collections.Comics()
+        , comics_view = new Views.Comics(
+            el:'#comics-list',
+            collection: my_comics_collection
+          );
+
+      my_comics_collection.fetch();
+
+      new Views.AddComic(
+        el:'#add-comic',
         collection: my_comics_collection
       );
+    });
+}
 
-  my_comics_collection.fetch();
+wsSync(method, model) {
+  final completer = new Completer();
 
-  new Views.AddComic(
-    el:'#add-comic',
-    collection: my_comics_collection
-  );
+  String message = "$method: ${model.url}";
+  if (method == 'delete')
+    message = "$method: ${model.id}";
+  if (method == 'create')
+    message = "$method: ${JSON.stringify(model.attributes)}";
+
+  print("sending: $message");
+  ws.send(message);
+
+  // Handle messages from the server, completing the completer
+  ws.
+    on.
+    message.
+    add(_wsHandler(event) {
+      print("The data in the event is: ${event.data}");
+      completer.complete(JSON.parse(event.data));
+
+      event.target.on.message.remove(_wsHandler);
+    });
+
+  return completer.future;
 }
 
 localSync(method, model) {
