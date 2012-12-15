@@ -7,7 +7,7 @@ import "../public/scripts/HipsterSync.dart";
 
 
 class TestHipsterCollection extends HipsterCollection {
-  String get url() => 'test.json';
+  String get url => 'test.json';
 }
 
 class TestHipsterModel extends HipsterModel {
@@ -17,11 +17,13 @@ class TestHipsterModel extends HipsterModel {
 main() {
   useHtmlEnhancedConfiguration();
 
-  test('HipsterCollection has multiple models', (){
-    HipsterCollection it = new HipsterCollection();
-    it.models = [{'id': 17}, {'id': 42}];
+  group('Collection attributes', () {
+    test('HipsterCollection has multiple models', (){
+      HipsterCollection it = new HipsterCollection();
+      it.models = [{'id': 17}, {'id': 42}];
 
-    Expect.equals(2, it.length);
+      Expect.equals(2, it.length);
+    });
   });
 
   group('HipsterCollection lookup', () {
@@ -42,9 +44,11 @@ main() {
     });
   });
 
-  test('HipsterCollection fetch() fails without a url', () {
-    HipsterCollection it = new HipsterCollection();
-    Expect.throws(() {it.fetch();});
+  group('HipsterCollection fetch()', () {
+    test('HipsterCollection fetch() fails without a url', () {
+      HipsterCollection it = new HipsterCollection();
+      Expect.throws(() {it.fetch();});
+    });
   });
 
   group('HipsterCollection fetch() callback', () {
@@ -76,19 +80,21 @@ main() {
     });
   });
 
-  test('HipsterCollection add dispatch add event', () {
-    noOpSync(method, model, [options]) {}
-    HipsterSync.sync = noOpSync;
+  group('Events', () {
+    test('HipsterCollection add dispatch add event', () {
+      noOpSync(method, model, [options]) {}
+      HipsterSync.sync = noOpSync;
 
-    HipsterCollection it = new TestHipsterCollection();
+      HipsterCollection it = new TestHipsterCollection();
 
-    it.
-      on.
-      insert.
-      add(expectAsync1((event) {
+      it.
+        on.
+        insert.
+        add(expectAsync1((event) {
           expect(event.collection, isNotNull);
         }));
 
-    it.add(new TestHipsterModel());
+      it.add(new TestHipsterModel());
+    });
   });
 }

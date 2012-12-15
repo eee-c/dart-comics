@@ -2,5 +2,4 @@ name: Dart Comics
 dependencies:
   dirty: any
   uuid: any
-  unittest:
-    sdk: unittest
+  unittest: any
