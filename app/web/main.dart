@@ -1,6 +1,6 @@
-import 'Collections.Comics.dart' as Collections;
-import 'Views.Comics.dart' as Views;
-import 'Views.AddComic.dart' as Views;
+import 'package:scripts/Collections.Comics.dart' as Collections;
+import 'package:scripts/Views.Comics.dart' as Views;
+import 'package:scripts/Views.AddComic.dart' as Views;
 
 import 'dart:html';
 import 'dart:json';

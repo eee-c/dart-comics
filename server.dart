@@ -92,8 +92,8 @@ class Public {
   }
 
   static String publicPath(String path) {
-    if (pathExists("public$path")) return "public$path";
-    if (pathExists("public$path/index.html")) return "public$path/index.html";
+    if (pathExists("app/web$path")) return "app/web$path";
+    if (pathExists("app/web$path/index.html")) return "app/web$path/index.html";
   }
 
   static bool pathExists(String path) => new File(path).existsSync();
