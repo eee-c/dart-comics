@@ -15,11 +15,12 @@ class ModalDialog {
 
   ModalDialog.html(String html) {
     el = new Element.tag('div');
-    el.innerHTML = html;
+    el.innerHtml = html;
   }
 
-  void set innerHTML(String html) {
-    el.innerHTML = html;
+  void set innerHtml(String html) {
+    print("here");
+    el.innerHtml = html;
 
     if (html == null || html == '')
       remove();
