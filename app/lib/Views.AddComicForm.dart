@@ -26,9 +26,9 @@ class AddComicForm extends HipsterView {
     });
   }
 
-  void render() { el.innerHTML = template(); }
+  void render() { el.innerHtml = template(); }
 
-  void remove() { el.innerHTML = ''; }
+  void remove() { el.innerHtml = ''; }
 
   template() {
     return """

@@ -19,7 +19,7 @@ class Comics extends HipsterView {
   }
 
   render() {
-    el.innerHTML = template(collection);
+    el.innerHtml = template(collection);
   }
 
   template(list) {

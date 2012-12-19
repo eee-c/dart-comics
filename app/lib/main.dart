@@ -43,7 +43,7 @@ localSync(method, model) {
         attrs = model.attributes;
 
     if (attrs['id'] == null) {
-      attrs['id'] = "${attrs['title']}:::${attrs['author']}".hashCode();
+      attrs['id'] = "${attrs['title']}:::${attrs['author']}".hashCode;
     }
     print(attrs);
 
@@ -51,7 +51,7 @@ localSync(method, model) {
 
     var id = attrs['id'];
     collection.data[id] = attrs;
-    window.localStorage.setItem(collection.url, JSON.stringify(collection.data));
+    window.localStorage[collection.url]  = JSON.stringify(collection.data);
   }
 
   return completer.future;
