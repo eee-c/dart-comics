@@ -19,7 +19,6 @@ class ModalDialog {
   }
 
   void set innerHtml(String html) {
-    print("here");
     el.innerHtml = html;
 
     if (html == null || html == '')
