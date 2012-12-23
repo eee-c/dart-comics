@@ -2,4 +2,6 @@
 
 A simple Dart front-end for organizing comic books across formats.
 
-The backend is a simple Dart web server. Start with `dart app.dart`.
+The backend is a Dart web server, which requires the Dart SDK to be
+installed. To install the necessary server dependencies, run 
+`pub install`. Start the web server with `dart app.dart`.
