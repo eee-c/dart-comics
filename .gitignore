@@ -7,3 +7,4 @@ public/scripts/*.js
 public/scripts/**/*.js
 .project
 packages
+app
