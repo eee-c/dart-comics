@@ -1,5 +1,5 @@
 import 'dart:html';
-import 'dart:json';
+import 'dart:json' as JSON;
 
 main() {
   load_comics();
@@ -11,9 +11,9 @@ load_comics() {
 
   req.open('get', '/comics', true);
 
-  req.on.load.add((res) {
+  req.onLoad.listen((res) {
     var list = JSON.parse(req.responseText);
-    list_el.innerHTML = graphic_novels_template(list);
+    list_el.innerHtml = graphic_novels_template(list);
     attach_delete_handlers(list_el);
   });
 
@@ -22,7 +22,7 @@ load_comics() {
 
 attach_delete_handlers(parent) {
   parent.queryAll('.delete').forEach((el) {
-    el.on.click.add((event) {
+    el.onClick.listen((event) {
       delete(event.target.parent.id, callback:() {
         print("[delete] ${event.target.parent.id}");
         event.target.parent.remove();
@@ -36,7 +36,7 @@ delete(id, {callback}) {
   var req = new HttpRequest()
     , default_callback = (){};
 
-  req.on.load.add((res) {
+  req.onLoad.listen((res) {
     (callback != null ? callback : default_callback)();
   });
 

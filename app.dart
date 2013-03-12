@@ -1,55 +1,57 @@
 import 'dart:io';
-import 'dart:json';
+import 'dart:json' as JSON;
 
 import 'package:dirty/dirty.dart';
 import 'package:uuid/uuid.dart';
 
 main() {
-  HttpServer app = new HttpServer();
+  var port = Platform.environment['PORT'] == null ?
+    8000 : int.parse(Platform.environment['PORT']);
 
-  app.addRequestHandler(Public.matcher, Public.handler);
+  HttpServer.bind('127.0.0.1', port).then((app) {
 
-  app.addRequestHandler(
-    (req) => req.method == 'GET' && req.path == '/comics',
-    Comics.index
-  );
+    //app.listen(Public.matcher, Public.handler);
+    app.listen((req) {
+      if (req.method == 'GET' && req.uri.path == '/comics') {
+        return Comics.index(req);
+      }
 
-  app.addRequestHandler(
-    (req) => req.method == 'POST' && req.path == '/comics',
-    Comics.post
-  );
+      if (req.method == 'POST' && req.uri.path == '/comics') {
+        return Comics.post(req);
+      }
 
-  app.addRequestHandler(
-    (req) => req.method == 'DELETE' &&
-             new RegExp(r"^/comics/[-\w\d]+$").hasMatch(req.path),
-    Comics.delete
-  );
+      if (req.method == 'DELETE' &&
+          new RegExp(r"^/comics/[-\w\d]+$").hasMatch(req.uri.path)) {
+        return Comics.delete(req);
+      }
 
-  var port = Platform.environment['PORT'] == null ? 8000 : int.parse(Platform.environment['PORT']);
-  app.listen('0.0.0.0', port);
-  print('Server started on port: ${port}');
+      if (Public.matcher(req)) {
+        return Public.handler(req);
+      }
+
+    });
+
+    print('Server started on port: ${port}');
+  });
 }
 
 class Comics {
   static Uuid uuid = new Uuid();
   static Dirty db = new Dirty('dart_comics.db');
 
-  static index(req, res) {
+  static index(req) {
+    print(db.values.toList());
+    var res = req.response;
     res.headers.contentType = 'application/json';
-    res.outputStream.writeString(JSON.stringify(db.values));
-    res.outputStream.close();
+    res.addString(JSON.stringify(db.values.toList()));
+    res.close();
   }
 
-  static post(req, res) {
-    var input = new StringInputStream(req.inputStream);
-    var post_data = '';
-
-    input.onLine = () {
-      var line = input.readLine();
-      post_data = post_data.concat(line);
-    };
-
-    input.onClosed = () {
+  static post(req) {
+    var res = req.response;
+    req.toList().then((list) {
+      var post_data = new String.fromCharCodes(list[0]);
+      print(post_data);
       var graphic_novel = JSON.parse(post_data);
       graphic_novel['id'] = uuid.v1();
 
@@ -58,19 +60,20 @@ class Comics {
       res.statusCode = 201;
       res.headers.contentType = 'application/json';
 
-      res.outputStream.writeString(JSON.stringify(graphic_novel));
-      res.outputStream.close();
-    };
+      res.addString(JSON.stringify(graphic_novel));
+      res.close();
+    });
   }
 
-  static delete(req, res) {
+  static delete(req) {
+    var res = req.response;
     var r = new RegExp(r"^/comics/([-\w\d]+)");
-    var id = r.firstMatch(req.path)[1];
+    var id = r.firstMatch(req.uri.path)[1];
 
     db.remove(id);
 
-    res.outputStream.writeString('{}');
-    res.outputStream.close();
+    res.addString('{}');
+    res.close();
   }
 }
 
@@ -78,17 +81,17 @@ class Public {
   static matcher(req) {
     if (req.method != 'GET') return false;
 
-    String path = publicPath(req.path);
+    String path = publicPath(req.uri.path);
     if (path == null) return false;
 
-    req.session().data = {'path': path};
+    req.session['path'] = path;
     return true;
   }
 
-  static handler(req, res) {
-    var file = new File(req.session().data['path']);
-    var stream = file.openInputStream();
-    stream.pipe(res.outputStream);
+  static handler(req) {
+    var file = new File(req.session['path']);
+    var stream = file.openRead();
+      stream.pipe(req.response);
   }
 
   static String publicPath(String path) {

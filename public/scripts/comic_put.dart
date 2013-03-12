@@ -1,10 +1,10 @@
 import 'dart:html';
-import 'dart:json';
+import 'dart:json' as JSON;
 
 main() {
   var form_el = document.query('#new-comic-form');
 
-  form_el.on.submit.add((event) {
+  form_el.onSubmit.listen((event) {
     var form = event.target
       , title = form.query('input[name=title]')
       , author = form.query('input[name=author]')
