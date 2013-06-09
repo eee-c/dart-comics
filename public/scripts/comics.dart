@@ -9,7 +9,7 @@ load_comics() {
   var list_el = document.query('#comics-list')
     , req = new HttpRequest();
 
-  req.open('get', '/comics', true);
+  req.open('get', '/comics');
 
   req.onLoad.listen((res) {
     var list = JSON.parse(req.responseText);
@@ -40,7 +40,7 @@ delete(id, {callback}) {
     (callback != null ? callback : default_callback)();
   });
 
-  req.open('delete', '/comics/$id', true);
+  req.open('delete', '/comics/$id');
   req.send();
 }
 

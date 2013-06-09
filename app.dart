@@ -39,16 +39,18 @@ class Comics {
   static Uuid uuid = new Uuid();
   static Dirty db = new Dirty('dart_comics.db');
 
-  static index(req) {
+  static index(HttpRequest req) {
     print(db.values.toList());
-    var res = req.response;
-    res.headers.contentType = 'application/json';
-    res.addString(JSON.stringify(db.values.toList()));
+    HttpResponse res = req.response;
+    res.headers.contentType
+      = new ContentType("application", "json", charset: "utf-8");
+
+    res.write(JSON.stringify(db.values.toList()));
     res.close();
   }
 
-  static post(req) {
-    var res = req.response;
+  static post(HttpRequest req) {
+    HttpResponse res = req.response;
     req.toList().then((list) {
       var post_data = new String.fromCharCodes(list[0]);
       print(post_data);
@@ -58,27 +60,28 @@ class Comics {
       db[graphic_novel['id']] = graphic_novel;
 
       res.statusCode = 201;
-      res.headers.contentType = 'application/json';
+      res.headers.contentType
+        = new ContentType("application", "json", charset: "utf-8");
 
-      res.addString(JSON.stringify(graphic_novel));
+      res.write(JSON.stringify(graphic_novel));
       res.close();
     });
   }
 
-  static delete(req) {
-    var res = req.response;
+  static delete(HttpRequest req) {
+    HttpResponse res = req.response;
     var r = new RegExp(r"^/comics/([-\w\d]+)");
     var id = r.firstMatch(req.uri.path)[1];
 
     db.remove(id);
 
-    res.addString('{}');
+    res.write('{}');
     res.close();
   }
 }
 
 class Public {
-  static matcher(req) {
+  static matcher(HttpRequest req) {
     if (req.method != 'GET') return false;
 
     String path = publicPath(req.uri.path);

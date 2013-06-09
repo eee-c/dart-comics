@@ -5,10 +5,10 @@ main() {
   var form_el = document.query('#new-comic-form');
 
   form_el.onSubmit.listen((event) {
-    var form = event.target
-      , title = form.query('input[name=title]')
-      , author = form.query('input[name=author]')
-      , format = form.queryAll('input[name=format]');
+    var form = event.target,
+        title = form.query('input[name=title]'),
+        author = form.query('input[name=author]'),
+        format = form.queryAll('input[name=format]');
 
     event.preventDefault();
 
@@ -22,7 +22,7 @@ main() {
     print(json);
 
     var req = new HttpRequest();
-    req.open('post', '/comics', false);
+    req.open('post', '/comics');
     req.setRequestHeader('Content-type', 'application/json');
     req.send(json);
     print(req.responseText);
