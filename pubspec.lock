@@ -4,19 +4,31 @@ packages:
   crypto:
     description: crypto
     source: hosted
-    version: "0.5.13"
+    version: "0.6.19"
   dirty:
     description: dirty
     source: hosted
-    version: "0.0.4"
+    version: "0.1.1"
+  json:
+    description: json
+    source: hosted
+    version: "0.6.9"
   meta:
     description: meta
     source: hosted
-    version: "0.5.13"
+    version: "0.6.19"
+  path:
+    description: path
+    source: hosted
+    version: "0.6.19"
+  stack_trace:
+    description: stack_trace
+    source: hosted
+    version: "0.6.19"
   unittest:
     description: unittest
     source: hosted
-    version: "0.5.13"
+    version: "0.6.19"
   uuid:
     description: uuid
     source: hosted

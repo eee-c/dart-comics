@@ -1,5 +1,5 @@
 import 'dart:html';
-import 'dart:json' as JSON;
+import 'package:json/json.dart' as JSON;
 
 main() {
   load_comics();

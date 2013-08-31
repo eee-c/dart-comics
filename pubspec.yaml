@@ -2,3 +2,4 @@ name: Dart Comics
 dependencies:
   dirty: any
   uuid: any
+  json: any

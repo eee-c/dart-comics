@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'dart:json' as JSON;
+import 'package:json/json.dart' as JSON;
 
 import 'package:dirty/dirty.dart';
 import 'package:uuid/uuid.dart';
@@ -98,8 +98,8 @@ class Public {
   }
 
   static String publicPath(String path) {
-    if (pathExists("public$path")) return "public$path";
-    if (pathExists("public$path/index.html")) return "public$path/index.html";
+    if (pathExists("web$path")) return "web$path";
+    if (pathExists("web$path/index.html")) return "web$path/index.html";
   }
 
   static bool pathExists(String path) => new File(path).existsSync();
