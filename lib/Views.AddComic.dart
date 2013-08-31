@@ -20,7 +20,7 @@ class AddComic extends HipsterView {
 
   void post_initialize() {
     print("sub initialize");
-    el.on.click.add(_toggle_form);
+    el.onClick.listen(_toggle_form);
   }
 
   _toggle_form(event) {

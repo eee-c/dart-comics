@@ -30,7 +30,6 @@ class ModalDialog {
   void remove() => hide();
 
   void hide() {
-    _removeHandlers();
     bg.remove();
     el.remove();
   }
@@ -47,19 +46,13 @@ class ModalDialog {
   Element query(String selectors) => el.query(selectors);
 
   _attachHanders() {
-    window.on
-      ..keyDown.
-          add((event) {
+    window
+      ..onKeyDown.
+          listen((event) {
             if (event.keyCode == 27) remove();
           })
-      ..resize.
-          add(resizeHandler);
-  }
-
-  _removeHandlers() {
-    window.on.
-      resize.
-        remove(resizeHandler);
+      ..onResize.
+          listen(resizeHandler);
   }
 
   _drawBackground([event]) {
@@ -68,50 +61,45 @@ class ModalDialog {
     bg = new DivElement();
     document.body.nodes.add(bg);
 
-    window.requestLayoutFrame(() {
-      var doc = window.document.documentElement;
+    var doc = window.document.documentElement;
 
-      bg.style
-        ..position = 'absolute'
-        ..top = '0px'
-        ..left = '0px'
+    bg.style
+      ..position = 'absolute'
+      ..top = '0px'
+      ..left = '0px'
 
-        ..width = "${doc.offsetWidth}px"
-        ..height = "${doc.clientHeight}px"
+      ..width = "${doc.offsetWidth}px"
+      ..height = "${doc.clientHeight}px"
 
-        ..backgroundColor = 'black'
-        ..opacity = '0.8'
-        ..zIndex = '1000';
-    });
+      ..backgroundColor = 'black'
+      ..opacity = '0.8'
+      ..zIndex = '1000';
   }
 
   _drawElement([event]) {
     document.body.nodes.add(el);
 
-    window.requestLayoutFrame(() {
-      var doc = window.document.documentElement;
+    var doc = window.document.documentElement;
 
-      el.style
-        ..opacity = '0'
+    el.style
+      ..opacity = '0'
 
-        ..position = 'absolute'
-        ..top = '0px'
-        ..left = '0px'
+      ..position = 'absolute'
+      ..top = '0px'
+      ..left = '0px'
 
-        ..backgroundColor = 'white'
-        ..padding = '20px'
-        ..borderRadius = '10px'
+      ..backgroundColor = 'white'
+      ..padding = '20px'
+      ..borderRadius = '10px'
 
-        ..zIndex = '1001'
+      ..zIndex = '1001'
 
-        ..top = '80px'
+      ..top = '80px'
 
-        ..transition = 'opacity 1s ease-in-out'
-        ..opacity = '1';
+      ..transition = 'opacity 1s ease-in-out'
+      ..opacity = '1';
 
-      int offset_left = (doc.offsetWidth/2 - el.offsetWidth/2).toInt();
-      el.style.left = "${offset_left}px";
-
-    });
+    int offset_left = (doc.offsetWidth/2 - el.offsetWidth/2).toInt();
+    el.style.left = "${offset_left}px";
   }
 }

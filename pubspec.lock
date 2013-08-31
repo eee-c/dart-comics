@@ -16,7 +16,7 @@ packages:
   hipster_mvc:
     description: hipster_mvc
     source: hosted
-    version: "0.2.8"
+    version: "0.2.9"
   http:
     description: http
     source: hosted
