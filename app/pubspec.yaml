@@ -1,4 +1,0 @@
-name: scripts
-dependencies:
-  hipster_mvc: any
-  unittest: any

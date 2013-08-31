@@ -5,7 +5,7 @@ import 'package:scripts/Views.Comics.dart' as Views;
 import 'package:scripts/Views.AddComic.dart' as Views;
 
 import 'dart:html';
-import 'dart:json';
+import 'package:json/json.dart';
 
 import 'package:hipster_mvc/hipster_sync.dart';
 

@@ -1,4 +1,7 @@
 name: Dart Comics
 dependencies:
+  hipster_mvc: any
   dirty: any
   uuid: any
+  json: any
+  unittest: any

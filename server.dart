@@ -1,33 +1,38 @@
 import 'dart:io';
-import 'dart:json';
+import 'package:json/json.dart';
 
 import 'package:dirty/dirty.dart';
 import 'package:uuid/uuid.dart';
 
 main() {
-  HttpServer app = new HttpServer();
+  var port = Platform.environment['PORT'] == null ?
+    8000 : int.parse(Platform.environment['PORT']);
 
-  app.addRequestHandler(Public.matcher, Public.handler);
+  HttpServer.bind('127.0.0.1', port).then((app) {
 
-  app.addRequestHandler(
-    (req) => req.method == 'GET' && req.path == '/comics',
-    Comics.index
-  );
+    //app.listen(Public.matcher, Public.handler);
+    app.listen((req) {
+      if (req.method == 'GET' && req.uri.path == '/comics') {
+        return Comics.index(req);
+      }
 
-  app.addRequestHandler(
-    (req) => req.method == 'POST' && req.path == '/comics',
-    Comics.post
-  );
+      if (req.method == 'POST' && req.uri.path == '/comics') {
+        return Comics.post(req);
+      }
 
-  app.addRequestHandler(
-    (req) => req.method == 'DELETE' &&
-             new RegExp(r"^/comics/[-\w\d]+$").hasMatch(req.path),
-    Comics.delete
-  );
+      if (req.method == 'DELETE' &&
+          new RegExp(r"^/comics/[-\w\d]+$").hasMatch(req.uri.path)) {
+        return Comics.delete(req);
+      }
 
-  var port = Platform.environment['PORT'] == null ? 8000 : int.parse(Platform.environment['PORT']);
-  app.listen('0.0.0.0', port);
-  print('Server started on port: ${port}');
+      if (Public.matcher(req)) {
+        return Public.handler(req);
+      }
+
+    });
+
+    print('Server started on port: ${port}');
+  });
 }
 
 class Comics {
@@ -75,20 +80,20 @@ class Comics {
 }
 
 class Public {
-  static matcher(req) {
+  static matcher(HttpRequest req) {
     if (req.method != 'GET') return false;
 
-    String path = publicPath(req.path);
+    String path = publicPath(req.uri.path);
     if (path == null) return false;
 
-    req.session().data = {'path': path};
+    req.session['path'] = path;
     return true;
   }
 
-  static handler(req, res) {
-    var file = new File(req.session().data['path']);
-    var stream = file.openInputStream();
-    stream.pipe(res.outputStream);
+  static handler(req) {
+    var file = new File(req.session['path']);
+    var stream = file.openRead();
+      stream.pipe(req.response);
   }
 
   static String publicPath(String path) {
