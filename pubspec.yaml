@@ -1,6 +1,7 @@
-name: Dart Comics
+name: dart_comics
 dependencies:
   hipster_mvc: any
+  browser: any
   dirty: any
   uuid: any
   json: any

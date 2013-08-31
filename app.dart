@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:json/json.dart';
+import 'package:json/json.dart' as JSON;
 
 import 'package:dirty/dirty.dart';
 import 'package:uuid/uuid.dart';
@@ -35,47 +35,49 @@ main() {
   });
 }
 
+
 class Comics {
   static Uuid uuid = new Uuid();
   static Dirty db = new Dirty('dart_comics.db');
 
-  static index(req, res) {
-    res.headers.contentType = 'application/json';
-    res.outputStream.writeString(JSON.stringify(db.values));
-    res.outputStream.close();
+  static index(HttpRequest req) {
+    print(db.values.toList());
+    HttpResponse res = req.response;
+    res.headers.contentType
+      = new ContentType("application", "json", charset: "utf-8");
+
+    res.write(JSON.stringify(db.values.toList()));
+    res.close();
   }
 
-  static post(req, res) {
-    var input = new StringInputStream(req.inputStream);
-    var post_data = '';
-
-    input.onLine = () {
-      var line = input.readLine();
-      post_data = post_data.concat(line);
-    };
-
-    input.onClosed = () {
+  static post(HttpRequest req) {
+    HttpResponse res = req.response;
+    req.toList().then((list) {
+      var post_data = new String.fromCharCodes(list[0]);
+      print(post_data);
       var graphic_novel = JSON.parse(post_data);
       graphic_novel['id'] = uuid.v1();
 
       db[graphic_novel['id']] = graphic_novel;
 
       res.statusCode = 201;
-      res.headers.contentType = 'application/json';
+      res.headers.contentType
+        = new ContentType("application", "json", charset: "utf-8");
 
-      res.outputStream.writeString(JSON.stringify(graphic_novel));
-      res.outputStream.close();
-    };
+      res.write(JSON.stringify(graphic_novel));
+      res.close();
+    });
   }
 
-  static delete(req, res) {
+  static delete(HttpRequest req) {
+    HttpResponse res = req.response;
     var r = new RegExp(r"^/comics/([-\w\d]+)");
-    var id = r.firstMatch(req.path)[1];
+    var id = r.firstMatch(req.uri.path)[1];
 
     db.remove(id);
 
-    res.outputStream.writeString('{}');
-    res.outputStream.close();
+    res.write('{}');
+    res.close();
   }
 }
 
@@ -97,8 +99,8 @@ class Public {
   }
 
   static String publicPath(String path) {
-    if (pathExists("app/web$path")) return "app/web$path";
-    if (pathExists("app/web$path/index.html")) return "app/web$path/index.html";
+    if (pathExists("web$path")) return "web$path";
+    if (pathExists("web$path/index.html")) return "web$path/index.html";
   }
 
   static bool pathExists(String path) => new File(path).existsSync();

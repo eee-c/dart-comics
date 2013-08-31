@@ -1,11 +1,9 @@
-library app;
-
-import 'package:scripts/Collections.Comics.dart' as Collections;
-import 'package:scripts/Views.Comics.dart' as Views;
-import 'package:scripts/Views.AddComic.dart' as Views;
+import 'package:dart_comics/Collections.Comics.dart' as Collections;
+import 'package:dart_comics/Views.Comics.dart' as Views;
+import 'package:dart_comics/Views.AddComic.dart' as Views;
 
 import 'dart:html';
-import 'package:json/json.dart';
+import 'package:json/json.dart' as JSON;
 
 import 'package:hipster_mvc/hipster_sync.dart';
 
