@@ -5,4 +5,5 @@ dependencies:
   dirty: any
   uuid: any
   json: any
+  ansicolor: any
   unittest: any

@@ -3,6 +3,7 @@ import 'package:json/json.dart' as JSON;
 
 import 'package:dirty/dirty.dart';
 import 'package:uuid/uuid.dart';
+import 'package:ansicolor/ansicolor.dart';
 
 main() {
   var port = Platform.environment['PORT'] == null ?
@@ -12,6 +13,8 @@ main() {
 
     //app.listen(Public.matcher, Public.handler);
     app.listen((req) {
+      log(req);
+
       if (req.method == 'GET' && req.uri.path == '/comics') {
         return Comics.index(req);
       }
@@ -29,6 +32,10 @@ main() {
         return Public.handler(req);
       }
 
+      HttpResponse res = req.response;
+      res.statusCode = HttpStatus.NOT_FOUND;
+      res.write("Not found.");
+      res.close();
     });
 
     print('Server started on port: ${port}');
@@ -41,7 +48,7 @@ class Comics {
   static Dirty db = new Dirty('dart_comics.db');
 
   static index(HttpRequest req) {
-    print(db.values.toList());
+    // print(db.values.toList());
     HttpResponse res = req.response;
     res.headers.contentType
       = new ContentType("application", "json", charset: "utf-8");
@@ -54,7 +61,7 @@ class Comics {
     HttpResponse res = req.response;
     req.toList().then((list) {
       var post_data = new String.fromCharCodes(list[0]);
-      print(post_data);
+      // print(post_data);
       var graphic_novel = JSON.parse(post_data);
       graphic_novel['id'] = uuid.v1();
 
@@ -104,4 +111,20 @@ class Public {
   }
 
   static bool pathExists(String path) => new File(path).existsSync();
+}
+
+log(req) {
+  req.response.done.then((res){
+    var now = new DateTime.now();
+    print('[${now}] "${req.method} ${req.uri.path}" ${logStatusCode(res)}');
+  });
+}
+
+final AnsiPen red = new AnsiPen()..red(bold: true);
+final AnsiPen green = new AnsiPen()..green(bold: true);
+
+logStatusCode(HttpResponse res) {
+  var code = res.statusCode;
+  if (code > 399) return red(code);
+  return green(code);
 }
