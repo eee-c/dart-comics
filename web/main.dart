@@ -10,8 +10,8 @@ import 'package:hipster_mvc/hipster_sync.dart';
 main() {
   // HipsterSync.sync = localSync;
 
-  var my_comics_collection = new Collections.Comics()
-    , comics_view = new Views.Comics(
+  var my_comics_collection = new Collections.Comics(),
+      comics_view = new Views.Comics(
         el:'#comics-list',
         collection: my_comics_collection
       );

@@ -14,8 +14,8 @@ class Comics extends HipsterView {
   _subscribeEvents() {
     if (collection == null) return;
 
-    collection.on.load.add((event) { render(); });
-    collection.on.insert.add((event) { render(); });
+    collection.onLoad.listen((event) { render(); });
+    collection.onAdd.listen((event) { render(); });
   }
 
   render() {
@@ -28,9 +28,7 @@ class Comics extends HipsterView {
 
     var html = '';
     list.forEach((comic) {
-      html = html.concat(
-        _singleComicBookTemplate(comic)
-      );
+      html = html + _singleComicBookTemplate(comic);
     });
     return html;
   }

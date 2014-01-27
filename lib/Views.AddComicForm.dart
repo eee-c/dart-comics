@@ -67,7 +67,7 @@ Dead Tree</label></p>
     remove();
 
     el.queryAll('a').forEach((a) {
-      a.on.click.remove(_disable_create_form);
+      a.onClick.remove(_disable_create_form);
       event.preventDefault();
     });
   }
