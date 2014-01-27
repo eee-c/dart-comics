@@ -12,6 +12,10 @@ A recent [Dart](http://dartlang.org) is required.
 
 The web code is contained in the `web` top-level directory. Aside from `main.dart` (which is in `web`) most of the client-side Dart code is in the `lib` directory.
 
+## Contributors
+
+Much thanks for Dart 1.0+ fixes to [jsjant](https://github.com/jsjant).
+
 ## License
 
 This software is licensed under the MIT License. See LICENSE for details.
