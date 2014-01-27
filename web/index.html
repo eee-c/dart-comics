@@ -5,11 +5,18 @@
   <link rel="stylesheet" href="/stylesheets/style.css">
 
   <script src="/scripts/comics.dart" type="application/dart"></script>
+</head>
+
+<body>
+  <h1>Dart Comics</h1>
+  <p>Welcome to Dart Comics</p>
+
+  <ul id="comics-list"></ul>
+
+  <p id="add-comic"><a href="new.html">Add a sweet comic to the collection</a>.</p>
+</body>
   <script>
-if (navigator.webkitStartDart) {
-  navigator.webkitStartDart()
-}
-else {
+if (!/Dart/.test(navigator.userAgent)) {
   loadJsEquivalentScripts();
 }
 
@@ -26,18 +33,8 @@ function loadJsEquivalent(script) {
   if (script.getAttribute('type') != 'application/dart') return;
 
   var js_script = document.createElement('script');
-  js_script.setAttribute('src', "${script.getAttribute('src')}.js");
+  js_script.setAttribute('src', script.getAttribute('src') + '.js');
   document.body.appendChild(js_script);
 }
   </script>
-</head>
-
-<body>
-  <h1>Dart Comics</h1>
-  <p>Welcome to Dart Comics</p>
-
-  <ul id="comics-list"></ul>
-
-  <p id="add-comic"><a href="new.html">Add a sweet comic to the collection</a>.</p>
-</body>
 </html>

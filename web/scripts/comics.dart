@@ -47,7 +47,7 @@ delete(id, {callback}) {
 graphic_novels_template(list) {
   var html = '';
   list.forEach((graphic_novel) {
-    html = html.concat(graphic_novel_template(graphic_novel));
+    html = html + graphic_novel_template(graphic_novel);
   });
   return html;
 }

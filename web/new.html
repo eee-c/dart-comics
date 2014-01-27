@@ -5,31 +5,6 @@
   <link rel="stylesheet" href="/stylesheets/style.css">
 
   <script src="/scripts/comic_put.dart" type="application/dart"></script>
-  <script>
-if (navigator.webkitStartDart) {
-  navigator.webkitStartDart()
-}
-else {
-  loadJsEquivalentScripts();
-}
-
-function loadJsEquivalentScripts() {
-  var scripts = document.getElementsByTagName('script');
-  for (var i=0; i<scripts.length; i++) {
-    loadJsEquivalent(scripts[i]);
-  }
-}
-
-function loadJsEquivalent(script) {
-  if (!script.hasAttribute('src')) return;
-  if (!script.hasAttribute('type')) return;
-  if (script.getAttribute('type') != 'application/dart') return;
-
-  var js_script = document.createElement('script');
-  js_script.setAttribute('src', "${script.getAttribute('src')}.js");
-  document.body.appendChild(js_script);
-}
-  </script>
 </head>
 
 <body>
@@ -75,4 +50,26 @@ function loadJsEquivalent(script) {
 </form>
 <p><a href="index.html">[done]</a></p>
 </body>
+  <script>
+if (!/Dart/.test(navigator.userAgent)) {
+  loadJsEquivalentScripts();
+}
+
+function loadJsEquivalentScripts() {
+  var scripts = document.getElementsByTagName('script');
+  for (var i=0; i<scripts.length; i++) {
+    loadJsEquivalent(scripts[i]);
+  }
+}
+
+function loadJsEquivalent(script) {
+  if (!script.hasAttribute('src')) return;
+  if (!script.hasAttribute('type')) return;
+  if (script.getAttribute('type') != 'application/dart') return;
+
+  var js_script = document.createElement('script');
+  js_script.setAttribute('src', script.getAttribute('src') + '.js');
+  document.body.appendChild(js_script);
+}
+  </script>
 </html>
