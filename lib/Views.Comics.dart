@@ -22,16 +22,8 @@ class Comics extends HipsterView {
     el.innerHtml = template(collection);
   }
 
-  template(list) {
-    // This is silly, but [].forEach is broke
-    if (list.length == 0) return '';
-
-    var html = '';
-    list.forEach((comic) {
-      html = html + _singleComicBookTemplate(comic);
-    });
-    return html;
-  }
+  template(list)=>
+    list.map(_singleComicBookTemplate).join('');
 
   _singleComicBookTemplate(comic) {
     return """
