@@ -5,6 +5,10 @@ packages:
     description: ansicolor
     source: hosted
     version: "0.0.9"
+  bignum:
+    description: bignum
+    source: hosted
+    version: "0.0.5"
   browser:
     description: browser
     source: hosted
@@ -12,7 +16,7 @@ packages:
   cipher:
     description: cipher
     source: hosted
-    version: "0.4.0"
+    version: "0.7.1"
   crypto:
     description: crypto
     source: hosted
@@ -20,32 +24,38 @@ packages:
   dirty:
     description: dirty
     source: hosted
-    version: "0.1.3"
+    version: "0.1.4"
   fixnum:
     description: fixnum
     source: hosted
     version: "0.9.0"
   hipster_mvc:
-    description: hipster_mvc
-    source: hosted
+    description:
+      path: "/home/chris/repos/hipster-mvc"
+      relative: false
+    source: path
     version: "0.3.0"
   json:
     description: json
     source: hosted
-    version: "0.9.1"
+    version: "0.10.0"
+  matcher:
+    description: matcher
+    source: hosted
+    version: "0.10.1+1"
   path:
     description: path
     source: hosted
-    version: "1.0.0"
+    version: "1.2.1"
   stack_trace:
     description: stack_trace
     source: hosted
-    version: "0.9.1"
+    version: "1.0.1"
   unittest:
     description: unittest
     source: hosted
-    version: "0.9.3"
+    version: "0.11.0+2"
   uuid:
     description: uuid
     source: hosted
-    version: "0.2.2"
+    version: "0.3.2"

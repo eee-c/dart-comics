@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:json/json.dart' as JSON;
 
 import 'package:dirty/dirty.dart';
-import 'package:uuid/uuid.dart';
+import 'package:uuid/uuid_server.dart';
 import 'package:ansicolor/ansicolor.dart';
 
 main() {
