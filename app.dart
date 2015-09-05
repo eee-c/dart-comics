@@ -100,6 +100,26 @@ class Public {
   }
 
   static handler(req) {
+    HttpResponse res = req.response;
+
+    String ext = req.uri.path.split('.').last;
+    switch (ext) {
+      case 'css':
+        res.headers.contentType =
+          new ContentType("text", "css", charset: "utf-8");
+        break;
+      case 'dart':
+        res.headers.contentType =
+          new ContentType("application", "dart", charset: "utf-8");
+        break;
+      case 'js':
+        res.headers.contentType =
+          new ContentType("application", "javascript", charset: "utf-8");
+        break;
+      default:
+        res.headers.contentType = ContentType.HTML;
+    }
+
     var file = new File(req.session['path']);
     var stream = file.openRead();
       stream.pipe(req.response);
