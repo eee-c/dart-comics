@@ -30,10 +30,8 @@ packages:
     source: hosted
     version: "0.9.0"
   hipster_mvc:
-    description:
-      path: "/home/chris/repos/hipster-mvc"
-      relative: false
-    source: path
+    description: hipster_mvc
+    source: hosted
     version: "0.3.0"
   json:
     description: json

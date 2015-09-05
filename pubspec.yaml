@@ -1,7 +1,6 @@
 name: dart_comics
 dependencies:
-  hipster_mvc:
-    path: /home/chris/repos/hipster-mvc
+  hipster_mvc: any
   browser: any
   dirty: any
   uuid: any
